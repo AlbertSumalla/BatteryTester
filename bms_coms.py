@@ -40,5 +40,4 @@ for i in range(30):
 	except Exception:
 		print('Invalid frame')
 
-
 os.system('sudo ifconfig can0 down')
