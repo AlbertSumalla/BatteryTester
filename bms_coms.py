@@ -6,7 +6,7 @@ os.system('sudo ip link set can0 type can bitrate 500000')
 os.system('sudo ifconfig can0 up')
 
 db = cantools.database.load_file('/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc')
-
+hola
 filters =[
 	{"can_id": db.get_message_by_name("VOLTAGE_INFO").frame_id , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": db.get_message_by_name("CURRENT").frame_id , "can_mask": 0xfffffff, "extended": True},
