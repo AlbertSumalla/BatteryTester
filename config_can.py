@@ -6,9 +6,8 @@ DBC_PATH = '/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc'  #Ubic
 
 
 
-def get_bms_filters(db):
-    CAN_BMS_FILTERS =   #Filtres del bus
-    [
+def get_bms_filters(db):    #Filtres del bus
+    CAN_BMS_FILTERS =[
 	{"can_id": get_id_db(db, "VOLTAGE_INFO") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "CURRENT") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_INFO_CELL") , "can_mask": 0xfffffff, "extended": True},
@@ -39,7 +38,7 @@ def setup_db_bms():     #Retorna la database del bms
 
 
 
-def encode_keepalive():     #Retorna el misatge keepalive
+def encode_keepalive(db):     #Retorna el misatge keepalive
     keepalive = db.get_message_by_name("BROADCAST_KEEP_ALIVE")
     data = keepalive.encode({})
 
@@ -47,7 +46,7 @@ def encode_keepalive():     #Retorna el misatge keepalive
 
 
 
-def encode_ignition(CAN_ignition):     #Retorna el misatge ignite
+def encode_ignition(db ,CAN_ignition):     #Retorna el misatge ignite
     ignition = db.get_message_by_name("IGNITION_OVER_CAN")
     data = ignition.encode({CAN_ignition})
 
@@ -93,5 +92,6 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
 
     def add_soh(self, soh):
         self.soh.append(soh)
+
 
 
