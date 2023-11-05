@@ -4,17 +4,26 @@ import cantools
 
 DBC_PATH = '/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc'  #Ubicació del dbc de la bms 
 
-CAN_BMS_FILTERS =   #Filtres del bus
+
+
+def get_bms_filters(db):
+    CAN_BMS_FILTERS =   #Filtres del bus
     [
-	{"can_id": db.get_message_by_name("VOLTAGE_INFO").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("CURRENT").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("TEMPERATURE_INFO_CELL").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("TEMPERATURE_INFO_INTERNAL").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("VOLTAGES_CELL").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("TEMPERATURE_CELLS").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("BATTERY_STATE").frame_id , "can_mask": 0xfffffff, "extended": True}
-	#{"can_id": db.get_message_by_name("BATTERY_SERIAL_NUMBER").frame_id , "can_mask": 0xfffffff, "extended": True}
+	{"can_id": get_id_db(db, "VOLTAGE_INFO") , "can_mask": 0xfffffff, "extended": True},
+	{"can_id": get_id_db(db, "CURRENT") , "can_mask": 0xfffffff, "extended": True},
+	{"can_id": get_id_db(db, "TEMPERATURE_INFO_CELL") , "can_mask": 0xfffffff, "extended": True},
+	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
+	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
+	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True}
     ]
+
+    return CAN_BMS_FILTERS
+
+
+
+def get_id_db(db, name):
+    return db.get_message_by_name(name).frame_id
+
 
 
 def setup_bus():    #Retorna el bus can configurat amb els filtres
@@ -47,3 +56,42 @@ def encode_ignition(CAN_ignition):     #Retorna el misatge ignite
 
 def close_bus():    #Tanca el bus
     os.system('sudo ifconfig can0 down')
+
+
+
+class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
+    def __init__(self):
+        self.voltage = []
+        self.temperature = []
+
+    def add_voltage(self, voltage):
+        self.voltage.append(voltage)
+
+    def add_temperature(self, temperature):
+        self.temperature.append(temperature)
+
+class Battery_full:     #per enmagatzemar totes les dades de la bateria
+    def __init__(self):
+        self.voltage = []
+        self.temperature = []
+        self.current = []
+        self.soc = []
+        self.soh = []
+        self.cells = [Battery_cell()]*24
+
+    def add_voltage(self, voltage):
+        self.voltage.append(voltage)
+
+    def add_temperature(self, temperature):
+        self.temperature.append(temperature)
+
+    def add_current(self, current):
+        self.current.append(current)
+
+    def add_soc(self, soc):
+        self.soc.append(soc)
+
+    def add_soh(self, soh):
+        self.soh.append(soh)
+
+
