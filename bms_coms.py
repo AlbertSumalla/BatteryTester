@@ -12,7 +12,7 @@ with setup_bus() as can0: # socketcan_native
 	
 	can0.send(encode_keepalive(db))
 
-	for i in range(30): 
+	for i in range(60): 
 
 		msg_received = can0.recv(1)
 
@@ -51,7 +51,8 @@ with setup_bus() as can0: # socketcan_native
 				bat_info.add_soc(decoded_frame['State_of_Charge'])
 				bat_info.add_soh(decoded_frame['State_of_Health'])		
 
-
+bat_info.remove_outliers()
+bat_info.print_class()
 
 """
 for i in range(30): 
