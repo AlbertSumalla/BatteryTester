@@ -2,7 +2,7 @@ import os
 import can
 import cantools
 from config_can import *
-
+a
 db = setup_db_bms()
 
 bat_info = Battery_full()
