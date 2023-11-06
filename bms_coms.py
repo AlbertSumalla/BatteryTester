@@ -1,36 +1,59 @@
 import os
 import can
 import cantools
+from config_can import *
 
-os.system('sudo ip link set can0 type can bitrate 500000')
-os.system('sudo ifconfig can0 up')
+db = setup_db_bms()
 
-db = cantools.database.load_file('/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc')
+bat_info = Battery_full()
 
-filters =[
-	{"can_id": db.get_message_by_name("VOLTAGE_INFO").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("CURRENT").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("TEMPERATURE_INFO_CELL").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("TEMPERATURE_INFO_INTERNAL").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("VOLTAGES_CELL").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("TEMPERATURE_CELLS").frame_id , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": db.get_message_by_name("BATTERY_STATE").frame_id , "can_mask": 0xfffffff, "extended": True}
-	#{"can_id": db.get_message_by_name("BATTERY_SERIAL_NUMBER").frame_id , "can_mask": 0xfffffff, "extended": True}
-]
+with setup_bus() as can0: # socketcan_native
+	can0.set_filters(get_bms_filters(db))
+	
+	can0.send(encode_keepalive(db))
 
-keepalive = db.get_message_by_name("BROADCAST_KEEP_ALIVE")
-data = keepalive.encode({})
-
-
-ign_message = can.Message(arbitration_id=keepalive.frame_id, data=data, is_extended_id=True)
-
-msg_list = {}
-with can.interface.Bus(channel = 'can0', interface = 'socketcan', fd=True, can_filters=filters) as can0:# socketcan_native
-#with can.interface.Bus(channel = 'can0', bustype = 'socketcan', fd=True) as can0:# socketcan_native
-	can0.send(ign_message)
 	for i in range(30): 
-		msg_list[i] = can0.recv(1)
-		
+
+		msg_received = can0.recv(1)
+
+		try:
+			decoded_frame = db.decode_message(msg_received.arbitration_id, msg_received.data)
+		except Exception:
+			continue
+
+		match msg_received.arbitration_id:
+
+			case get_id_db(db, "VOLTAGE_INFO"):
+				bat_info.add_voltage(decoded_frame['Battery_Voltage'])
+
+			case get_id_db(db, "CURRENT"):
+				bat_info.add_current(decoded_frame['Battery_Current'])
+
+			case get_id_db(db, "TEMPERATURE_INFO_CELL"):
+				bat_info.add_current(decoded_frame['Temperature_internal_Mean'])
+
+			case get_id_db(db, "VOLTAGES_CELL"):
+				i = decoded_frame['Index_of_cell']
+
+				bat_info.cells[i].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_0'])
+				bat_info.cells[i + 1].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_1'])
+				bat_info.cells[i + 2].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_2'])
+
+			case get_id_db(db, "TEMPERATURE_CELLS"):
+				i = decoded_frame['NTC_Index']
+
+				bat_info.cells[i].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_0'])
+				bat_info.cells[i + 1].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_1'])
+				bat_info.cells[i + 2].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_2'])
+
+
+			case get_id_db(db, "BATTERY_STATE"):
+				bat_info.add_soc(decoded_frame['State_of_Charge'])
+				bat_info.add_soh(decoded_frame['State_of_Health'])		
+
+
+
+"""
 for i in range(30): 
 	print(i)
 	print(msg_list[i])
@@ -39,5 +62,6 @@ for i in range(30):
 		print(decode_frame)
 	except Exception:
 		print('Invalid frame')
+"""
 
-os.system('sudo ifconfig can0 down')
+close_bus()
