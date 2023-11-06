@@ -21,35 +21,36 @@ with setup_bus() as can0: # socketcan_native
 		except Exception:
 			continue
 
-		match msg_received.arbitration_id:
+		msg_id = msg_received.arbitration_id
 
-			case get_id_db(db, "VOLTAGE_INFO"):
-				bat_info.add_voltage(decoded_frame['Battery_Voltage'])
+		if msg_id == get_id_db(db, "VOLTAGE_INFO"):
+			bat_info.add_voltage(decoded_frame['Battery_Voltage'])
 
-			case get_id_db(db, "CURRENT"):
-				bat_info.add_current(decoded_frame['Battery_Current'])
+		if msg_id == get_id_db(db, "CURRENT"):
+			bat_info.add_current(decoded_frame['Battery_Current'])
 
-			case get_id_db(db, "TEMPERATURE_INFO_CELL"):
-				bat_info.add_current(decoded_frame['Temperature_internal_Mean'])
+		if msg_id == get_id_db(db, "TEMPERATURE_INFO_CELL"):
+			bat_info.add_current(decoded_frame['Temperature_internal_Mean'])
 
-			case get_id_db(db, "VOLTAGES_CELL"):
-				i = decoded_frame['Index_of_cell']
+		if msg_id == get_id_db(db, "VOLTAGES_CELL"):
+			i = decoded_frame['Index_of_cell']
 
-				bat_info.cells[i].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_0'])
-				bat_info.cells[i + 1].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_1'])
-				bat_info.cells[i + 2].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_2'])
-
-			case get_id_db(db, "TEMPERATURE_CELLS"):
-				i = decoded_frame['NTC_Index']
-
-				bat_info.cells[i].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_0'])
-				bat_info.cells[i + 1].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_1'])
-				bat_info.cells[i + 2].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_2'])
+			bat_info.cells[i].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_0'])
+			bat_info.cells[i + 1].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_1'])
+			bat_info.cells[i + 2].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_2'])
 
 
-			case get_id_db(db, "BATTERY_STATE"):
-				bat_info.add_soc(decoded_frame['State_of_Charge'])
-				bat_info.add_soh(decoded_frame['State_of_Health'])		
+		if msg_id == get_id_db(db, "TEMPERATURE_CELLS"):
+			i = decoded_frame['NTC_Index']
+
+			bat_info.cells[i].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_0'])
+			bat_info.cells[i + 1].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_1'])
+			bat_info.cells[i + 2].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_2'])
+
+
+		if msg_id == get_id_db(db, "BATTERY_STATE"):
+			bat_info.add_soc(decoded_frame['State_of_Charge'])
+			bat_info.add_soh(decoded_frame['State_of_Health'])		
 
 bat_info.remove_outliers()
 bat_info.print_class()
