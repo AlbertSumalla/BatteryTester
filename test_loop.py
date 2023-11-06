@@ -18,10 +18,12 @@ temperatureMinCeldas =
 temperatureMaxCeldas =
 
 #Checks Bateria
-if voltageMin <= voltageMitjana <= voltageMax:
-    voltageMitjanaCheck = True
+if voltageMin >= voltageMitjana:
+    voltageMitjanaCheck = 0 #Voltatge per sota mínims
+elif voltageMitjana >= voltageMax:
+    voltageMitjanaCheck = 1 #Voltatge per sobre màxims
 else:
-    voltageMitjanaCheck = False
+    voltageMitjanaCheck = 2 #Voltatge dins de marges
 
 if currentMin <= currentMitjana <= currentMax:
     currentMitjanaCheck = True
