@@ -5,13 +5,13 @@ from statistics import mean
 
 DBC_PATH = '/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc'  #Ubicació del dbc de la bms 
 
-MAX_OUTLIER_ERROR = 1.0
+MAX_OUTLIER_ERROR = 0.0
 
 def get_bms_filters(db):    #Filtres del bus
     CAN_BMS_FILTERS =[
 	{"can_id": get_id_db(db, "VOLTAGE_INFO") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "CURRENT") , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": get_id_db(db, "TEMPERATURE_INFO_CELL") , "can_mask": 0xfffffff, "extended": True},
+	{"can_id": get_id_db(db, "TEMPERATURE_INFO_INTERNAL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True}
@@ -89,7 +89,11 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current = []
         self.soc = []
         self.soh = []
-        self.cells = [Battery_cell()]*24
+        self.cells = []
+        
+    def init_cells(self):
+        for i in range(24):
+            self.cells.append(Battery_cell())
 
     def print_class(self):
         print(self.voltage)
@@ -117,23 +121,23 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.soh.append(soh)
 
     def remove_outliers(self):
-        for i in range(len(self.voltage)):
+        for i in range(len(self.voltage)-1):
             if abs(self.voltage[i] - mean(self.voltage)) > MAX_OUTLIER_ERROR: 
                 self.voltage.pop(i)
 
-        for i in range(len(self.temperature)):
+        for i in range(len(self.temperature)-1):
             if abs(self.temperature[i] - mean(self.temperature)) > MAX_OUTLIER_ERROR: 
                 self.temperature.pop(i)
 
-        for i in range(len(self.current)):
+        for i in range(len(self.current)-1):
             if abs(self.current[i] - mean(self.current)) > MAX_OUTLIER_ERROR: 
                 self.current.pop(i)
 
-        for i in range(len(self.soc)):
+        for i in range(len(self.soc)-1):
             if abs(self.soc[i] - mean(self.soc)) > MAX_OUTLIER_ERROR: 
                 self.soc.pop(i)
 
-        for i in range(len(self.soh)):
+        for i in range(len(self.soh)-1):
             if abs(self.soh[i] - mean(self.soh)) > MAX_OUTLIER_ERROR: 
                 self.soh.pop(i)
 
