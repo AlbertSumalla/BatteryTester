@@ -85,8 +85,6 @@ class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
         self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
 
 
-
-
 class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def __init__(self):
         self.voltage = []
