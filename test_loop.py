@@ -1,2 +1,2 @@
-import recieve_info
+import config_can
 
