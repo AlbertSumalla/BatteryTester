@@ -55,6 +55,14 @@ def encode_ignition(db ,CAN_ignition):     #Retorna el misatge ignite
 def close_bus():    #Tanca el bus
     os.system('sudo ifconfig can0 down')
 
+def remove_outliers(list, max_error):  #treu els valors aberrants
+    list_without_outliers = []
+
+    for i in range(len(list)):
+            if abs(list[i] - mean(list)) < max_error: 
+                list_without_outliers.append(list[i])
+
+    return list_without_outliers
 
 
 class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
@@ -72,13 +80,10 @@ class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
         self.temperature.append(temperature)
 
     def remove_outliers(self):
-        for i in range(len(self.voltage)):
-            if abs(self.voltage[i] - mean(self.voltage)) > MAX_OUTLIER_ERROR: 
-                self.voltage.pop(i)
 
-        for i in range(len(self.temperature)):
-            if abs(self.temperature[i] - mean(self.temperature)) > MAX_OUTLIER_ERROR: 
-                self.temperature.pop(i)
+        self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
+        self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
+
 
 
 
@@ -121,25 +126,17 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.soh.append(soh)
 
     def remove_outliers(self):
-        for i in range(len(self.voltage)-1):
-            if abs(self.voltage[i] - mean(self.voltage)) > MAX_OUTLIER_ERROR: 
-                self.voltage.pop(i)
 
-        for i in range(len(self.temperature)-1):
-            if abs(self.temperature[i] - mean(self.temperature)) > MAX_OUTLIER_ERROR: 
-                self.temperature.pop(i)
+        self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
 
-        for i in range(len(self.current)-1):
-            if abs(self.current[i] - mean(self.current)) > MAX_OUTLIER_ERROR: 
-                self.current.pop(i)
+        self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
 
-        for i in range(len(self.soc)-1):
-            if abs(self.soc[i] - mean(self.soc)) > MAX_OUTLIER_ERROR: 
-                self.soc.pop(i)
+        self.current = remove_outliers(self.current, MAX_OUTLIER_ERROR)
 
-        for i in range(len(self.soh)-1):
-            if abs(self.soh[i] - mean(self.soh)) > MAX_OUTLIER_ERROR: 
-                self.soh.pop(i)
+        self.soc = remove_outliers(self.soc, MAX_OUTLIER_ERROR)
+
+        self.soh = remove_outliers(self.soh, MAX_OUTLIER_ERROR)
 
         for i in range(24):
             self.cells[i].remove_outliers
+
