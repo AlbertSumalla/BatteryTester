@@ -2,6 +2,13 @@ import bms_coms
 #-----------------------Fiqueu les variables en ingles, que hi havia un mix de catala i angles molt pocho
 
 #Càlcul de mitjanes
+# Inicialització de Mitjanes (mentres encara no hi ha el calcul)
+VoltageMedian = 0
+currentMedian = 0
+temperatureMedian = 0
+SoCMedian = 0
+VoltageMedianCells = 0
+temperatureMedianCells = 0
 
 #Voltagealors mínims i màxims acceptables de la bateria
 VoltageMin = 0
