@@ -2,28 +2,23 @@ import bms_coms
 #-----------------------Fiqueu les variables en ingles, que hi havia un mix de catala i angles molt pocho
 
 #Càlcul de mitjanes
-# Inicialització de Mitjanes (mentres encara no hi ha el calcul)
-VoltageMedian = 0
-currentMedian = 0
-temperatureMedian = 0
-SoCMedian = 0
-VoltageMedianCells = 0
-temperatureMedianCells = 0
 
-#Voltagealors mínims i màxims acceptables de la bateria
-VoltageMin = 0
-VoltageMax = 0
-currentMin = 0
-currentMax = 0
-temperatureMin = 0
-temperatureMax = 0
-SoCMin = 0
 
-#Voltagealors mínims i màxims acceptables de les cel·les de la bateria
-VoltageMinCells = 0
-VoltageMaxCells = 0
-temperatureMinCells = 0
-temperatureMaxCells = 0
+
+#Valors mínims i màxims acceptables de la bateria
+voltageMin =
+voltageMax =
+currentMin = 
+currentMax = 
+temperatureMin =
+temperatureMax =
+SoCMin = 
+
+#Valors mínims i màxims acceptables de les cel·les de la bateria
+voltageMinCeldas =
+voltageMaxCeldas =
+temperatureMinCeldas =
+temperatureMaxCeldas =
 
 #Checks Bateria
 if VoltageMin >= VoltageMedian:
@@ -33,10 +28,10 @@ elif VoltageMedian >= VoltageMax:
 else:
     VoltageMedianCheck = 2 #Voltage dins de marges
 
-if currentMin <= currentMedian <= currentMax:
-    currentMedianCheck = True
+if currentMin <= currentMitjana <= currentMax:
+    currentMitjanaCheck = True
 else:
-    currentMedianCheck = False
+    currentMitjanaCheck = False
 
 if temperatureMin >= temperatureMedian:
     temperatureMedianCheck = 0 #Temperatura per sota mínims
