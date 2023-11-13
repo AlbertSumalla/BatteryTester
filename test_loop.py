@@ -2,63 +2,66 @@ import bms_coms
 #-----------------------Fiqueu les variables en ingles, que hi havia un mix de catala i angles molt pocho
 
 #Càlcul de mitjanes
-
-
+VoltMean = 1
+currMean = 1
+tempMean = 1
+SoCMean = 1
+VoltMeanCells = 1
+tempMeanCells = 1
 
 #Valors mínims i màxims acceptables de la bateria
-voltageMin =
-voltageMax =
-currentMin = 
-currentMax = 
-temperatureMin =
-temperatureMax =
-SoCMin = 
+VoltMin = 1
+VoltMax = 2
+currMin = 1
+currMax = 2
+tempMin = 1
+tempMax = 2
+SoCMin = 1
 
 #Valors mínims i màxims acceptables de les cel·les de la bateria
-voltageMinCeldas =
-voltageMaxCeldas =
-temperatureMinCeldas =
-temperatureMaxCeldas =
+VoltMinCells = 1
+VoltMaxCells = 2
+tempMinCells = 1
+tempMaxCells = 2
 
 #Checks Bateria
-if VoltageMin >= VoltageMedian:
-    VoltageMedianCheck = 0 #Voltage per sota mínims
-elif VoltageMedian >= VoltageMax:
-    VoltageMedianCheck = 1 #Voltage per sobre màxims
+if VoltMin >= VoltMean:
+    VoltMeanCheck = 0 #Voltage per sota mínims
+elif VoltMean >= VoltMax:
+    VoltMeanCheck = 1 #Voltage per sobre màxims
 else:
-    VoltageMedianCheck = 2 #Voltage dins de marges
+    VoltMeanCheck = 2 #Voltage dins de marges
 
-if currentMin <= currentMitjana <= currentMax:
-    currentMitjanaCheck = True
+if currMin <= currMean <= currMax:
+    currMeanCheck = True
 else:
-    currentMitjanaCheck = False
+    currMeanCheck = False
 
-if temperatureMin >= temperatureMedian:
-    temperatureMedianCheck = 0 #Temperatura per sota mínims
-elif temperatureMedian >= temperatureMax:
-    temperatureMedianCheck = 1 #Temperatura per sobre màxims
+if tempMin >= tempMean:
+    tempMeanCheck = 0 #Temperatura per sota mínims
+elif tempMean >= tempMax:
+    tempMeanCheck = 1 #Temperatura per sobre màxims
 else:
-    temperatureMedianCheck = 2 #Temperatura dins de marges
+    tempMeanCheck = 2 #Temperatura dins de marges
 
-if SoCMin >= SoCMedian:
-    SoCMedianCheck = False #SoC per sota del mínim
+if SoCMin >= SoCMean:
+    SoCMeanCheck = False #SoC per sota del mínim
 else:
-    SoCMedianCheck = True #SoC dins dels marges
+    SoCMeanCheck = True #SoC dins dels marges
 
 #Checks Cells Bateria
-
-if VoltageMinCells >= VoltageMedianCells:
-    VoltageMedianCellsCheck = 0 #Voltage de cel·les per sota mínims
-elif VoltageMedianCells >= VoltageMaxCells:
-    VoltageMedianCellsCheck = 1 #Voltage de cel·les per sobre màxims
+if VoltMinCells >= VoltMeanCells:
+    VoltMeanCCheck = 0 #Voltage de cel·les per sota mínims
+elif VoltMeanCells >= VoltMaxCells:
+    VoltMeanCCheck = 1 #Voltage de cel·les per sobre màxims
 else:
-    VoltageMedianCellsCheck = 2 #Voltage de cel·les dins de marges
+    VoltMeanCCheck = 2 #Voltage de cel·les dins de marges
 
-if temperatureMinCells >= temperatureMedianCells:
-    temperatureMedianCellsCheck = 0 #Temperatura de cel·les per sota mínims
-elif temperatureMedianCells >= temperatureMaxCells:
-    temperatureMedianCellsCheck = 1 #Temperatura de cel·les per sobre màxims
+if tempMinCells >= tempMeanCells:
+    tempMeanCCheck = 0 #Temperatura de cel·les per sota mínims
+elif tempMeanCells >= tempMaxCells:
+    tempMeanCCheck = 1 #Temperatura de cel·les per sobre màxims
 else:
-    temperatureMedianCellsCheck = 2 #Temperatura de cel·les dins dels marges
+    tempMeanCCheck = 2 #Temperatura de cel·les dins dels marges
 
 
