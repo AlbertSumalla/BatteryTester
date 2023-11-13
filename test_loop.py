@@ -1,6 +1,7 @@
 import bms_coms
 import pandas as pd
 import constants as c
+import gpioconfig
 
 #Càlcul de mitjanes
 VoltMean = 1 #s.mean
@@ -90,4 +91,10 @@ elif tempMeanCells >= c.tempMaxCells:
 else:
     tempMeanCCheck = 0 #Temperatura de cel·les dins dels marges
 
+#Checks GPIOs
+Volt12Vline = GPIOValuesDict["GPIO17"]
+if (Volt12Vline = 0):
+    Volt12VlineCheck = 1; #Voltage fora de rang (11V-16V)
+else:
+    Volt12VlineCheck = 0; #Voltage dins de rang (11V-16V)
 
