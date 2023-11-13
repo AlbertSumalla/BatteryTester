@@ -43,17 +43,17 @@ with setup_bus() as can0: # socketcan_native
 		if msg_id == get_id_db(db, "VOLTAGES_CELL"):
 			i = decoded_frame['Index_of_cell']
 
-			bat_info.cells[i].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_0'])
-			bat_info.cells[i + 1].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_1'])
-			bat_info.cells[i + 2].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_2'])
+			bat_info.add_cell_voltage(i, decoded_frame['Cell_voltage_at_Index_plus_0'])
+			bat_info.add_cell_voltage(i + 1, decoded_frame['Cell_voltage_at_Index_plus_1'])
+			bat_info.add_cell_voltage(i + 2, decoded_frame['Cell_voltage_at_Index_plus_2'])
 			print("VOLTAGES_CELL " + str(i))
 
 		if msg_id == get_id_db(db, "TEMPERATURE_CELLS"):
 			i = decoded_frame['NTC_Index']
 
-			bat_info.cells[i].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_0'])
-			bat_info.cells[i + 1].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_1'])
-			bat_info.cells[i + 2].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_2'])
+			bat_info.add_cell_temperature(i, decoded_frame['Temperature_at_NTC_index_plus_0'])
+			bat_info.add_cell_temperature(i + 1, decoded_frame['Temperature_at_NTC_index_plus_1'])
+			bat_info.add_cell_temperature(i + 2, decoded_frame['Temperature_at_NTC_index_plus_2'])
 			print("TEMPERATURE_CELLS " + str(i))
 
 		if msg_id == get_id_db(db, "BATTERY_STATE"):
@@ -117,16 +117,16 @@ def get_bms_data(can_bus,db,iterations):
 		if msg_id == get_id_db(db, "VOLTAGES_CELL"):
 			i = decoded_frame['Index_of_cell']
 
-			bat_info.cells[i].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_0'])
-			bat_info.cells[i + 1].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_1'])
-			bat_info.cells[i + 2].add_voltage(decoded_frame['Cell_voltage_at_Index_plus_2'])
+			bat_info.add_cell_voltage(i, decoded_frame['Cell_voltage_at_Index_plus_0'])
+			bat_info.add_cell_voltage(i + 1, decoded_frame['Cell_voltage_at_Index_plus_1'])
+			bat_info.add_cell_voltage(i + 2, decoded_frame['Cell_voltage_at_Index_plus_2'])
 
 		if msg_id == get_id_db(db, "TEMPERATURE_CELLS"):
 			i = decoded_frame['NTC_Index']
 
-			bat_info.cells[i].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_0'])
-			bat_info.cells[i + 1].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_1'])
-			bat_info.cells[i + 2].add_temperature(decoded_frame['Temperature_at_NTC_index_plus_2'])
+			bat_info.add_cell_temperature(i, decoded_frame['Temperature_at_NTC_index_plus_0'])
+			bat_info.add_cell_temperature(i + 1, decoded_frame['Temperature_at_NTC_index_plus_1'])
+			bat_info.add_cell_temperature(i + 2, decoded_frame['Temperature_at_NTC_index_plus_2']))
 
 		if msg_id == get_id_db(db, "BATTERY_STATE"):
 			bat_info.add_soc(decoded_frame['State_of_Charge'])
@@ -139,10 +139,12 @@ def get_bms_data(can_bus,db,iterations):
 def get_bms_data_test():
 	bat_data = Battery_full()
 	
-	bat_data.voltage = []
-	bat_data.current = []
-	bat_data.temperature = []
-	bat_data.soc = []
-	bat_data.soh = []
+	voltage = []
+	current = []
+	temperature = []
+	soc = []
+	soh = []
+	cell_voltage = []
+	cell_temperature = []
 
 	return bat_data

@@ -92,11 +92,17 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current = []
         self.soc = []
         self.soh = []
-        self.cells = []
+        self.cell_voltage = []
+        self.cell_temperature = []
         
     def init_cells(self):
-        for i in range(24):
-            self.cells.append(Battery_cell())
+        empty_list = []
+
+        for _ in range(24):
+            self.cell_voltage.append(empty_list)
+
+        for _ in range(4):
+            self.cell_temperature.append(empty_list)
 
     def print_class(self):
         print(self.voltage)
@@ -106,7 +112,10 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         print(self.soh)
 
         for i in range(24):
-            print(self.cells[i])
+            print(self.cell_voltage[i])
+
+        for i in range(4):
+            print(self.cell_temperature[i])
 
     def add_voltage(self, voltage):
         self.voltage.append(voltage)
@@ -123,6 +132,12 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def add_soh(self, soh):
         self.soh.append(soh)
 
+    def add_cell_voltage(self, i, voltage):
+        self.add_cell_voltage[i].append(voltage)
+
+    def add_cell_temperature(self, i, voltage):
+        self.add_cell_temperature[i].append(voltage)
+
     def remove_outliers(self):
 
         self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
@@ -136,5 +151,10 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.soh = remove_outliers(self.soh, MAX_OUTLIER_ERROR)
 
         for i in range(24):
-            self.cells[i].remove_outliers
+            remove_outliers(self.cell_voltage[i], MAX_OUTLIER_ERROR)
+
+        for i in range(4):
+            remove_outliers(self.cell_temperature[i], MAX_OUTLIER_ERROR)
+
+        print("Remove Outliners Done")
 
