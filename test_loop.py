@@ -1,5 +1,4 @@
 import bms_coms
-#-----------------------Fiqueu les variables en ingles, que hi havia un mix de catala i angles molt pocho
 
 #Càlcul de mitjanes
 VoltMean = 1
@@ -32,10 +31,12 @@ elif VoltMean >= VoltMax:
 else:
     VoltMeanCheck = 2 #Voltage dins de marges
 
-if currMin <= currMean <= currMax:
-    currMeanCheck = True
+if currMin >= currMean:
+    currMeanCheck = 0 #Corrent per sota mínims
+elif currMean >= currMax:
+    currMeanCheck = 1 #Corrent per sobre màxims
 else:
-    currMeanCheck = False
+    currMeanCheck = 2 #Corrent dins de marges
 
 if tempMin >= tempMean:
     tempMeanCheck = 0 #Temperatura per sota mínims
