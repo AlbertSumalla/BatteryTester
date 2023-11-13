@@ -11,6 +11,35 @@ SoHMean = 1
 VoltMeanCells = 1
 tempMeanCells = 1
 
+"""posar-ho darrere de Checks Cells Bateria
+Volt = pd.Series('llista que ens passin')
+curr = pd.Series('llista que ens passin')
+temp = pd.Series('llista que ens passin')
+SoC = pd.Series('llista que ens passin')
+SoH = pd.Series('llista que ens passin')
+VoltCells = pd.Series('llista que ens passin')
+tempCells = pd.Series('llista que ens passin')
+#definició de les series que rebem
+
+VoltMean = Volt.mean
+currMean = curr.mean
+tempMean = temp.mean
+SoCMean = SoC.mean
+SoHMean = SoH.mean
+VoltMeanCells = VoltCells.mean
+tempMeanCells = tempCells.mean
+#mitjana de cada serie
+
+if (Volt[c.VoltMax < Volt < c.VoltMin].count() != 0 or Volt[Volt > c.VoltMax].count() != 0):
+    VoltMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+if (curr[c.currExpect - c.RangecurrMin < curr < c.currExpect + c.RangecurrMax].count() != 0):
+    currMeanCheck = 3
+
+#mirem si alguna de les lectures de la llista que ens passen esta fora del rang, i la quantitat de lectures no aberrants té la llista
+
+"""
+
+
 #--------------------constants.py apart de les constants----------------------
 
 
