@@ -19,7 +19,6 @@ def get_bms_filters(db):    #Filtres del bus
 
     return CAN_BMS_FILTERS
 
-
 def get_id_db(db, name):
     return db.get_message_by_name(name).frame_id
 
