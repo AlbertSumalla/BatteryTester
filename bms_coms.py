@@ -70,7 +70,7 @@ close_bus()
 
 #############################################################################################################
 
-def get_bms_data(can_bus,db,iterations):
+def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de dades corresponent a les iteracions (1 iteracions = llegir despres d'enviar keep alive vins que deixi d'enviar) o -1 si no rep resopsta
 	bat_data = Battery_full()
 	bat_data.init_cells()
 
@@ -87,6 +87,10 @@ def get_bms_data(can_bus,db,iterations):
 
 			if msg_received == None:
 				can_bus.send(encode_keepalive(db))
+
+				msg_received = can_bus.recv(1)
+
+				if msg_received == None: return -1
 
 			first_iteration = 0 
 
@@ -138,7 +142,7 @@ def get_bms_data(can_bus,db,iterations):
 
 def get_bms_data_test():
 	bat_data = Battery_full()
-	
+
 	voltage = []
 	current = []
 	temperature = []
