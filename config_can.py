@@ -2,10 +2,16 @@ import os
 import can
 import cantools
 from statistics import mean
+from decimal import Decimal, getcontext
+
 
 DBC_PATH = '/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc'  #Ubicació del dbc de la bms 
 
+# Constant declaration
 MAX_OUTLIER_ERROR = 0.0
+
+# Decimal floating point declaration
+getcontext().prec = 4 
 
 def get_bms_filters(db):    #Filtres del bus
     CAN_BMS_FILTERS =[
@@ -18,7 +24,6 @@ def get_bms_filters(db):    #Filtres del bus
     ]
 
     return CAN_BMS_FILTERS
-
 
 def get_id_db(db, name):
     return db.get_message_by_name(name).frame_id
@@ -74,10 +79,10 @@ class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
         return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.voltage)
 
     def add_voltage(self, voltage):
-        self.voltage.append(voltage)
+        self.voltage.append(Decimal(voltage))
 
     def add_temperature(self, temperature):
-        self.temperature.append(temperature)
+        self.temperature.append(Decimal(temperature))
 
     def remove_outliers(self):
 
@@ -118,13 +123,13 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
             print(self.cell_temperature[i])
 
     def add_voltage(self, voltage):
-        self.voltage.append(voltage)
+        self.voltage.append(Decimal(voltage))
 
     def add_temperature(self, temperature):
-        self.temperature.append(temperature)
+        self.temperature.append(Decimal(temperature))
 
     def add_current(self, current):
-        self.current.append(current)
+        self.current.append(Decimal(current))
 
     def add_soc(self, soc):
         self.soc.append(soc)
