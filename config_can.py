@@ -143,6 +143,27 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def add_cell_temperature(self, i, voltage):
         self.add_cell_temperature[i].append(voltage)
 
+    def get_voltage(self):
+        return self.voltage
+
+    def get_temperature(self):
+        return self.temperature
+
+    def get_current(self):
+        return self.current
+
+    def get_soc(self):
+        return self.soc
+
+    def get_soh(self):
+        return self.soh
+
+    def get_cell_voltage(self, i):
+        return self.cell_voltage[i]
+
+    def get_cell_temperature(self, i):
+        return self.cell_temperature[i]
+
     def remove_outliers(self):
 
         self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)

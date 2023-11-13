@@ -126,7 +126,7 @@ def get_bms_data(can_bus,db,iterations):
 
 			bat_info.add_cell_temperature(i, decoded_frame['Temperature_at_NTC_index_plus_0'])
 			bat_info.add_cell_temperature(i + 1, decoded_frame['Temperature_at_NTC_index_plus_1'])
-			bat_info.add_cell_temperature(i + 2, decoded_frame['Temperature_at_NTC_index_plus_2']))
+			bat_info.add_cell_temperature(i + 2, decoded_frame['Temperature_at_NTC_index_plus_2'])
 
 		if msg_id == get_id_db(db, "BATTERY_STATE"):
 			bat_info.add_soc(decoded_frame['State_of_Charge'])
@@ -144,7 +144,60 @@ def get_bms_data_test():
 	temperature = []
 	soc = []
 	soh = []
-	cell_voltage = []
-	cell_temperature = []
+	cell_voltage = [
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[]
+	]
+	cell_temperature = [
+		[],
+		[],
+		[],
+		[]
+	]
+
+	for values in voltage:
+		bat_data.add_voltage(values)
+
+	for values in current:
+		bat_data.add_current(values)
+
+	for values in temperature:
+		bat_data.add_temperature(values)
+
+	for values in soc:
+		bat_data.add_soc(values)
+
+	for values in soh:
+		bat_data.add_soh(values)
+
+	for i in range(24):
+		for values in cell_voltage[i]:
+			bat_data.add_cell_voltage(i ,values)
+
+	for i in range(4):
+		for values in cell_temperature[i]:
+			bat_data.add_cell_temperature(i ,values)
 
 	return bat_data
