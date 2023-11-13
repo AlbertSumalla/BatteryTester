@@ -12,7 +12,7 @@ SoHMean = 1
 VoltMeanCells = 1
 tempMeanCells = 1
 
-"""posar-ho darrere de Checks Cells Bateria
+"""-----------------------------------posar-ho darrere de Checks Cells Bateria
 Volt = pd.Series('llista que ens passin')
 curr = pd.Series('llista que ens passin')
 temp = pd.Series('llista que ens passin')
@@ -20,7 +20,7 @@ SoC = pd.Series('llista que ens passin')
 SoH = pd.Series('llista que ens passin')
 VoltCells = pd.Series('llista que ens passin')
 tempCells = pd.Series('llista que ens passin')
-#definició de les series que rebem
+#------------------------------------definició de les series que rebem
 
 VoltMean = Volt.mean
 currMean = curr.mean
@@ -29,15 +29,39 @@ SoCMean = SoC.mean
 SoHMean = SoH.mean
 VoltMeanCells = VoltCells.mean
 tempMeanCells = tempCells.mean
-#mitjana de cada serie
+#------------------------------------mitjana de cada serie
 
-if (Volt[c.VoltMax < Volt < c.VoltMin].count() != 0 or Volt[Volt > c.VoltMax].count() != 0):
+if (Volt[Volt < c.VoltMin].count() != 0 or Volt[Volt > c.VoltMax].count() != 0):
     VoltMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
-if (curr[c.currExpect - c.RangecurrMin < curr < c.currExpect + c.RangecurrMax].count() != 0):
-    currMeanCheck = 3
+if (curr[c.currExpect - c.RangecurrMin < curr].count() != 0 or curr[curr < c.currExpect - c.RangecurrMin].count() != 0):
+    currMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+if (temp[c.tempMin >= temp] != 0 or temp[c.tempMax <= temp] != 0):
+    tempMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+if (SoC[c.SoCMin >= SoC] != 0):
+    SoCMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+if (SoH[c.SoHMin >= SoH] != 0):
+    SoHMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+if (VoltCells[VoltCells < c.VoltMinCells].count() != 0 or VoltCells[VoltCells > c.VoltMaxCells].count() != 0):
+    VoltMeanCCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+if (tempCells[c.tempMinCells >= tempCells] != 0 or tempCells[c.tempMaxCells <= tempCells] != 0):
+    tempMeanCCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
+#----------------------------------mirem si alguna de les lectures de la llista que ens passen esta fora del rang
 
-#mirem si alguna de les lectures de la llista que ens passen esta fora del rang, i la quantitat de lectures no aberrants té la llista
-
+if (Volt.count() < 5):
+    VoltMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+if (curr.count() < 5):
+    currMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+if (temp.count() < 5):
+    tempMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+if (SoC.count() < 5):
+    SoCMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+if (SoH.count() < 5):
+    SoHMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+if (VoltCells.count() < 5):
+    VoltMeanCCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+if (tempCells.count() < 5):
+    tempMeanCCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
+#----------------------------------mirem si la quantitat de lectures no aberrants que té cada llista és suficient o no
 """
 
 
