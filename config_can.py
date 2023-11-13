@@ -76,13 +76,13 @@ class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
         self.temperature = []
 
     def __str__(self):
-        return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.voltage)
+        return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.temperature)
 
     def add_voltage(self, voltage):
-        self.voltage.append(Decimal(voltage))
+        self.voltage.append(voltage)
 
     def add_temperature(self, temperature):
-        self.temperature.append(Decimal(temperature))
+        self.temperature.append(temperature)
 
     def remove_outliers(self):
 
@@ -123,13 +123,13 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
             print(self.cell_temperature[i])
 
     def add_voltage(self, voltage):
-        self.voltage.append(Decimal(voltage))
+        self.voltage.append(voltage)
 
     def add_temperature(self, temperature):
-        self.temperature.append(Decimal(temperature))
+        self.temperature.append(temperature)
 
     def add_current(self, current):
-        self.current.append(Decimal(current))
+        self.current.append(current)
 
     def add_soc(self, soc):
         self.soc.append(soc)
@@ -181,6 +181,4 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
 
         for i in range(4):
             remove_outliers(self.cell_temperature[i], MAX_OUTLIER_ERROR)
-
-        print("Remove Outliners Done")
 
