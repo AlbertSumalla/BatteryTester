@@ -100,7 +100,7 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.cells = []
         
     def init_cells(self):
-        for i in range(24):
+        for _ in range(24):
             self.cells.append(Battery_cell())
 
     def print_class(self):
@@ -142,4 +142,5 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
 
         for i in range(24):
             self.cells[i].remove_outliers
+        print("Remove Outliners Done")
 
