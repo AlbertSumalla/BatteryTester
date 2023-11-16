@@ -101,13 +101,12 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.cell_temperature = []
         
     def init_cells(self):
-        empty_list = []
 
         for _ in range(24):
-            self.cell_voltage.append(empty_list)
+            self.cell_voltage.append([])
 
         for _ in range(4):
-            self.cell_temperature.append(empty_list)
+            self.cell_temperature.append([])
 
     def print_class(self):
         print(self.voltage)
@@ -117,10 +116,10 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         print(self.soh)
 
         for i in range(24):
-            print(self.cell_voltage[i])
+            print("Cell voltage " + str(i) + " " + str(self.cell_voltage[i]))
 
         for i in range(4):
-            print(self.cell_temperature[i])
+            print("Cell temperature " + str(i) + " " + str(self.cell_temperature[i]))
 
     def add_voltage(self, voltage):
         self.voltage.append(Decimal(voltage))
@@ -132,16 +131,16 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current.append(Decimal(current))
 
     def add_soc(self, soc):
-        self.soc.append(soc)
+        self.soc.append(Decimal(soc))
 
     def add_soh(self, soh):
-        self.soh.append(soh)
+        self.soh.append(Decimal(soh))
 
     def add_cell_voltage(self, i, voltage):
-        self.add_cell_voltage[i].append(voltage)
+        self.cell_voltage[i].append(Decimal(voltage))
 
-    def add_cell_temperature(self, i, voltage):
-        self.add_cell_temperature[i].append(voltage)
+    def add_cell_temperature(self, i, temperature):
+        self.cell_temperature[i].append(Decimal(temperature))
 
     def get_voltage(self):
         return self.voltage
