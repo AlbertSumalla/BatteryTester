@@ -7,6 +7,27 @@ import time
 GPIOValuesDict = {"GPIO17":[],"GPIO27":[],"GPIO22":[],"GPIO5":[],"GPIO6":[],"GPIO13":[],"GPIO19":[],"GPIO26":[],"GPIO18":[],
 "GPIO23":[],"GPIO24":[],"GPIO25":[],"GPIO8":[],"GPIO7":[],"GPIO12":[],"GPIO16":[],"GPIO20":[],"GPIO21":[]};
 
+#SECONDARY DICTIONARY to know what each pin does mean in the sense of the project
+
+GPIONamesDict = {"GPIO17":["SORTIDA COMPROVADOR 11-16V"],
+                 "GPIO27":[""],
+                 "GPIO22":[""],
+                 "GPIO5":[""],
+                 "GPIO6":[""],
+                 "GPIO13":[""],
+                 "GPIO19":[""],
+                 "GPIO26":[""],
+                 "GPIO18":[""],
+                 "GPIO23":[""],
+                 "GPIO24":[""],
+                 "GPIO25":[""],
+                 "GPIO8":[""],
+                 "GPIO7":[""],
+                 "GPIO12":[""],
+                 "GPIO16":[""],
+                 "GPIO20":[""],
+                 "GPIO21":[""]};
+
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)  # Set the mode to use GPIO numbers
     gpio_pins = [17, 27, 22, 5, 6, 13, 19, 26, 18, 23, 24, 25, 8, 7, 12, 16, 20, 21]
@@ -29,10 +50,11 @@ def check_gpio_states(gpio_pins):
         input_state = GPIO.input(pin)
         GPIOValuesDict[f"GPIO{pin}"].append(input_state)  #We write the GPIO value to its corresponding key-value pair 
         if input_state:
-            print(f"Pin {pin} is HIGH")
+            print(f"Pin {pin} is HIGH,")
         else:
             print(f"Pin {pin} is LOW")
 
+    
 gpio_pins_setup = setup_gpio()
 
 try:
