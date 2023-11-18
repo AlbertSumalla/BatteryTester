@@ -1,7 +1,7 @@
 import bms_coms
 import pandas as pd
 import constants as c
-import gpioconfig
+from gpioconfig import *
 
 def function_test_loop():
     #Càlcul de mitjanes
@@ -93,57 +93,57 @@ def function_test_loop():
 
     #-------------------------------------------------------------------
     #Checks Bateria
-    if c.VoltMin >= VoltMean and warningV = 0:
+    if c.VoltMin >= VoltMean and warningV == 0:
         VoltMeanCheck = 2 #Voltage per sota mínims
-    elif VoltMean >= c.VoltMax and warningV = 0:
+    elif VoltMean >= c.VoltMax and warningV == 0:
         VoltMeanCheck = 1 #Voltage per sobre màxims
-    elif warningV = 0:
+    elif warningV == 0:
         VoltMeanCheck = 0 #Voltage dins de marges
 
-    if (c.currExpect - c.RangecurrMin < currMean < c.currExpect + c.RangecurrMax) and warningC = 0:
+    if (c.currExpect - c.RangecurrMin < currMean < c.currExpect + c.RangecurrMax) and warningC == 0:
         currMeanCheck = 0 #Corrent dins de marges
-    elif warningV = 0:
+    elif warningV == 0:
         currMeanCheck = 1 #Corrent fora de l'esperat
 
-    if c.tempMin >= tempMean and warningT = 0:
+    if c.tempMin >= tempMean and warningT == 0:
         tempMeanCheck = 2 #Temperatura per sota mínims
-    elif tempMean >= c.tempMax and warningT = 0:
+    elif tempMean >= c.tempMax and warningT == 0:
         tempMeanCheck = 1 #Temperatura per sobre màxims
-    elif warningT = 0:
+    elif warningT == 0:
         tempMeanCheck = 0 #Temperatura dins de marges
 
-    if c.SoCMin >= SoCMean and warningSoC = 0:
+    if c.SoCMin >= SoCMean and warningSoC == 0:
         SoCMeanCheck = 1 #SoC per sota del mínim
-    elif warningSoC = 0:
+    elif warningSoC == 0:
         SoCMeanCheck = 0 #SoC dins dels marges
 
-    if c.SoHMin >= SoHMean and warningSoH = 0:
+    if c.SoHMin >= SoHMean and warningSoH == 0:
         SoHMeanCheck = 1 #SoH per sota del mínim
-    elif warningSoH = 0:
+    elif warningSoH == 0:
         SoHMeanCheck = 0 #SoH dins dels marges
 
 
     #Checks Cells Bateria
-    if c.VoltMinCells >= VoltMeanCells and warningVC = 0:
+    if c.VoltMinCells >= VoltMeanCells and warningVC == 0:
         VoltMeanCCheck = 2 #Voltage de cel·les per sota mínims
-    elif VoltMeanCells >= c.VoltMaxCells and warningVC = 0:
+    elif VoltMeanCells >= c.VoltMaxCells and warningVC == 0:
         VoltMeanCCheck = 1 #Voltage de cel·les per sobre màxims
     elif warningVC:
         VoltMeanCCheck = 0 #Voltage de cel·les dins de marges
 
-    if c.tempMinCells >= tempMeanCells and warningTC = 0:
+    if c.tempMinCells >= tempMeanCells and warningTC == 0:
         tempMeanCCheck = 2 #Temperatura de cel·les per sota mínims
-    elif tempMeanCells >= c.tempMaxCells and warningTC = 0:
+    elif tempMeanCells >= c.tempMaxCells and warningTC == 0:
         tempMeanCCheck = 1 #Temperatura de cel·les per sobre màxims
-    elif warningTC = 0:
+    elif warningTC == 0:
         tempMeanCCheck = 0 #Temperatura de cel·les dins dels marges
 
     #Checks GPIOs
     Volt12Vline = GPIOValuesDict["GPIO17"]
-    if (Volt12Vline = 0):
+    if (Volt12Vline == 0):
         Volt12VlineCheck = 1; #Voltage fora de rang (11V-16V)
     else:
         Volt12VlineCheck = 0; #Voltage dins de rang (11V-16V)
 
-    GPIOReturnDict = [Volt12VlineCheck,-1]
-    return GPIOReturnDict
+    TreatedDataReturnList = [Volt12VlineCheck,-1]
+    return TreatedDataReturnList
