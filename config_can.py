@@ -119,6 +119,7 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         print(self.current)
         print(self.soc)
         print(self.soh)
+        print(self.serial)
 
         for i in range(24):
             print("Cell voltage " + str(i) + " " + str(self.cell_voltage[i]))
