@@ -20,7 +20,8 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "TEMPERATURE_INFO_INTERNAL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True}
+	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
+    {"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True}
     ]
 
     return CAN_BMS_FILTERS
@@ -99,15 +100,18 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.soh = []
         self.cell_voltage = []
         self.cell_temperature = []
+        self.serial = []               # el num de serie té 32 caracters que guardo a una lista per fer més facil l'ordre
         
     def init_cells(self):
-        empty_list = []
 
         for _ in range(24):
-            self.cell_voltage.append(empty_list)
+            self.cell_voltage.append([])
 
         for _ in range(4):
-            self.cell_temperature.append(empty_list)
+            self.cell_temperature.append([])
+
+        for _ in range(32):
+            self.serial.append(0)
 
     def print_class(self):
         print(self.voltage)
@@ -115,12 +119,13 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         print(self.current)
         print(self.soc)
         print(self.soh)
+        print(self.serial)
 
         for i in range(24):
-            print(self.cell_voltage[i])
+            print("Cell voltage " + str(i) + " " + str(self.cell_voltage[i]))
 
         for i in range(4):
-            print(self.cell_temperature[i])
+            print("Cell temperature " + str(i) + " " + str(self.cell_temperature[i]))
 
     def add_voltage(self, voltage):
         self.voltage.append(voltage)
@@ -132,16 +137,19 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current.append(current)
 
     def add_soc(self, soc):
-        self.soc.append(soc)
+        self.soc.append(Decimal(soc))
 
     def add_soh(self, soh):
-        self.soh.append(soh)
+        self.soh.append(Decimal(soh))
 
     def add_cell_voltage(self, i, voltage):
-        self.add_cell_voltage[i].append(voltage)
+        self.cell_voltage[i].append(Decimal(voltage))
 
-    def add_cell_temperature(self, i, voltage):
-        self.add_cell_temperature[i].append(voltage)
+    def add_cell_temperature(self, i, temperature):
+        self.cell_temperature[i].append(Decimal(temperature))
+
+    def set_serial(self, i, serial):
+        self.serial[i] = serial
 
     def get_voltage(self):
         return self.voltage
@@ -163,6 +171,9 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
 
     def get_cell_temperature(self, i):
         return self.cell_temperature[i]
+    
+    def get_serial(self):
+        return self.serial
 
     def remove_outliers(self):
 

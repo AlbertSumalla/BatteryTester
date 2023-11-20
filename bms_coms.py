@@ -77,9 +77,9 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 	n = 0
 	first_iteration = 1
 
-
 	while n < iterations:
-
+		
+		
 		if first_iteration:
 			can_bus.send(encode_ignition(db, 1))
 
@@ -95,11 +95,12 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 			first_iteration = 0 
 
 		else:
+			
 			msg_received = can_bus.recv(1)
 
 			if msg_received == None:
 				can_bus.send(encode_keepalive(db))
-				n + 1
+				n = n + 1
 
 			
 		try:
@@ -127,14 +128,34 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 
 		if msg_id == get_id_db(db, "TEMPERATURE_CELLS"):
 			i = decoded_frame['NTC_Index']
-
-			bat_info.add_cell_temperature(i, decoded_frame['Temperature_at_NTC_index_plus_0'])
-			bat_info.add_cell_temperature(i + 1, decoded_frame['Temperature_at_NTC_index_plus_1'])
-			bat_info.add_cell_temperature(i + 2, decoded_frame['Temperature_at_NTC_index_plus_2'])
+			
+			if i == 0:
+				bat_info.add_cell_temperature(i, decoded_frame['Temperature_at_NTC_index_plus_0'])
+				bat_info.add_cell_temperature(i + 1, decoded_frame['Temperature_at_NTC_index_plus_1'])
+				bat_info.add_cell_temperature(i + 2, decoded_frame['Temperature_at_NTC_index_plus_2'])
+			else:
+				bat_info.add_cell_temperature(3, decoded_frame['Temperature_at_NTC_index_plus_0'])
 
 		if msg_id == get_id_db(db, "BATTERY_STATE"):
 			bat_info.add_soc(decoded_frame['State_of_Charge'])
 			bat_info.add_soh(decoded_frame['State_of_Health'])	
+
+		if msg_id == get_id_db(db, "BATTERY_SERIAL_NUMBER"):
+			i = decoded_frame['Sequence number']
+
+			if i < 5:
+				bat_info.set_serial(i, decoded_frame['Char at (seq number*7 + 0)'])
+				bat_info.set_serial(i + 1, decoded_frame['Char at (seq number*7 + 1)'])
+				bat_info.set_serial(i + 2, decoded_frame['Char at (seq number*7 + 2)'])
+				bat_info.set_serial(i + 3, decoded_frame['Char at (seq number*7 + 3)'])
+				bat_info.set_serial(i + 4, decoded_frame['Char at (seq number*7 + 4)'])
+				bat_info.set_serial(i + 5, decoded_frame['Char at (seq number*7 + 5)'])
+				bat_info.set_serial(i + 6, decoded_frame['Char at (seq number*7 + 6)'])
+			else:
+				bat_info.set_serial(28, decoded_frame['Char at (seq number*7 + 0)'])
+				bat_info.set_serial(29, decoded_frame['Char at (seq number*7 + 1)'])
+				bat_info.set_serial(30, decoded_frame['Char at (seq number*7 + 2)'])
+				bat_info.set_serial(31, decoded_frame['Char at (seq number*7 + 3)'])
 
 	return bat_data
 
