@@ -4,6 +4,9 @@ import constants as c
 from gpioconfig import *
 
 def function_test_loop():
+
+    bat_info = get_bms_data_test()
+    
     #Càlcul de mitjanes
     VoltMean = 1 #s.mean
     currMean = 1
@@ -13,14 +16,21 @@ def function_test_loop():
     VoltMeanCells = 1
     tempMeanCells = 1
 
+    VoltCells = []
+    tempCells = []
+    
     """-----------------------------------posar-ho darrere de Checks Cells Bateria
-    Volt = pd.Series('llista que ens passin')
-    curr = pd.Series('llista que ens passin')
-    temp = pd.Series('llista que ens passin')
-    SoC = pd.Series('llista que ens passin')
-    SoH = pd.Series('llista que ens passin')
-    VoltCells = pd.Series('llista que ens passin')
-    tempCells = pd.Series('llista que ens passin')
+    Volt = pd.Series(bat_info.get_voltage())
+    curr = pd.Series(bat_info.get_current())
+    temp = pd.Series(bat_info.get_temperature())
+    SoC = pd.Series(bat_info.get_soc())
+    SoH = pd.Series(bat_info.get_soh())
+    
+    for i in range(24):
+        VoltCells.append(pd.Series(bat_info.get_cell_voltage(i)))
+
+    for i in range(4):
+        tempCells.append(pd.Series(bat_info.get_cell_temperature(i)))
     #------------------------------------definició de les series que rebem
 
     VoltMean = Volt.mean
