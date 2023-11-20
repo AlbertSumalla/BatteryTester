@@ -1,0 +1,32 @@
+data1 = 0
+data2 = 0
+data2_1 = 2
+data2_2 = 1
+data2_3 = 0
+data3 = 0
+data4 = 2
+data5 = 0
+data6 = 0
+data7 = 0
+data8 = 0
+data9 = 0
+data10 = 0
+data11 = 0
+data12 = 0
+data13 = 0
+data14 = 0
+
+data1_2 = 5.6
+data2_2_1 = 15.21 
+data2_2_2 = 15.15
+data2_2_3 = 15.22
+data3_2_1 = 25.8
+data3_2_2 = 25.5
+data3_2_3 = 26
+data4_2 = 0.5
+data5_2 = 11.5
+data6_2 = 12
+data7_2 = 4
+data8_2 = 45 
+
+par = 1
