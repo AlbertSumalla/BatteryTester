@@ -2,10 +2,16 @@ import os
 import can
 import cantools
 from statistics import mean
+from decimal import Decimal, getcontext
+
 
 DBC_PATH = '/home/fusefinder/Descargas/FS-FUSION-ION_v449_DBC_v5_FF0.dbc'  #Ubicació del dbc de la bms 
 
+# Constant declaration
 MAX_OUTLIER_ERROR = 0.0
+
+# Decimal floating point declaration
+getcontext().prec = 4 
 
 def get_bms_filters(db):    #Filtres del bus
     CAN_BMS_FILTERS =[
@@ -14,11 +20,11 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "TEMPERATURE_INFO_INTERNAL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
-	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True}
+	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
+    {"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True}
     ]
 
     return CAN_BMS_FILTERS
-
 
 def get_id_db(db, name):
     return db.get_message_by_name(name).frame_id
@@ -71,7 +77,7 @@ class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
         self.temperature = []
 
     def __str__(self):
-        return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.voltage)
+        return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.temperature)
 
     def add_voltage(self, voltage):
         self.voltage.append(voltage)
@@ -92,11 +98,20 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current = []
         self.soc = []
         self.soh = []
-        self.cells = []
+        self.cell_voltage = []
+        self.cell_temperature = []
+        self.serial = []               # el num de serie té 32 caracters que guardo a una lista per fer més facil l'ordre
         
     def init_cells(self):
-        for i in range(24):
-            self.cells.append(Battery_cell())
+
+        for _ in range(24):
+            self.cell_voltage.append([])
+
+        for _ in range(4):
+            self.cell_temperature.append([])
+
+        for _ in range(32):
+            self.serial.append(0)
 
     def print_class(self):
         print(self.voltage)
@@ -104,9 +119,13 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         print(self.current)
         print(self.soc)
         print(self.soh)
+        print(self.serial)
 
         for i in range(24):
-            print(self.cells[i])
+            print("Cell voltage " + str(i) + " " + str(self.cell_voltage[i]))
+
+        for i in range(4):
+            print("Cell temperature " + str(i) + " " + str(self.cell_temperature[i]))
 
     def add_voltage(self, voltage):
         self.voltage.append(voltage)
@@ -118,10 +137,43 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current.append(current)
 
     def add_soc(self, soc):
-        self.soc.append(soc)
+        self.soc.append(Decimal(soc))
 
     def add_soh(self, soh):
-        self.soh.append(soh)
+        self.soh.append(Decimal(soh))
+
+    def add_cell_voltage(self, i, voltage):
+        self.cell_voltage[i].append(Decimal(voltage))
+
+    def add_cell_temperature(self, i, temperature):
+        self.cell_temperature[i].append(Decimal(temperature))
+
+    def set_serial(self, i, serial):
+        self.serial[i] = serial
+
+    def get_voltage(self):
+        return self.voltage
+
+    def get_temperature(self):
+        return self.temperature
+
+    def get_current(self):
+        return self.current
+
+    def get_soc(self):
+        return self.soc
+
+    def get_soh(self):
+        return self.soh
+
+    def get_cell_voltage(self, i):
+        return self.cell_voltage[i]
+
+    def get_cell_temperature(self, i):
+        return self.cell_temperature[i]
+    
+    def get_serial(self):
+        return self.serial
 
     def remove_outliers(self):
 
@@ -136,5 +188,8 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.soh = remove_outliers(self.soh, MAX_OUTLIER_ERROR)
 
         for i in range(24):
-            self.cells[i].remove_outliers
+            remove_outliers(self.cell_voltage[i], MAX_OUTLIER_ERROR)
+
+        for i in range(4):
+            remove_outliers(self.cell_temperature[i], MAX_OUTLIER_ERROR)
 
