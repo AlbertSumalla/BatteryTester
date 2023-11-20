@@ -185,7 +185,7 @@ def failed_connection(Volt, curr, temp, SoC, SoH, VoltCells, tempCells):
     for j in range (4):                         #busquem llistes buides a cell_temperature
         if len(tempCells[j]) == 0:
             cell_temp_empt = 1
-    if len(Volt) == 0 and len(curr) and len(temp) and len(SoC) and len(SoH) and cell_temp_empt == 1 and cell_volt_empt == 1:
+    if len(Volt) == 0 and len(curr) == 0 and len(temp) == 0 and len(SoC) == 0 and len(SoH) == 0 and cell_temp_empt == 1 and cell_volt_empt == 1:
         return -1                       #no hem obtingut cap dada (fallida total de la connexió)
     else:
         return 0                        # hem rebut dades (comunicació funciona)
