@@ -13,8 +13,8 @@ def function_test_loop():
     tempMean = 1
     SoCMean = 1
     SoHMean = 1
-    VoltMeanCells = 1
-    tempMeanCells = 1
+    VoltMeanCells = []
+    tempMeanCells = []
 
     VoltCells = []
     tempCells = []
@@ -38,8 +38,12 @@ def function_test_loop():
     tempMean = temp.mean
     SoCMean = SoC.mean
     SoHMean = SoH.mean
-    VoltMeanCells = VoltCells.mean
-    tempMeanCells = tempCells.mean
+
+    for i in range(24):
+        VoltMeanCells.append(VoltCells[i].mean)
+
+    for i in range(4):
+        tempMeanCells.append(tempCells[i].mean)
     #------------------------------------mitjana de cada serie
     warningV = 0
     warningC = 0
