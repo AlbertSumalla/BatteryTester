@@ -169,5 +169,13 @@ def function_test_loop():
         Volt12VlineCheck = 0; #Voltage dins de rang (11V-16V)
 
     TreatedDataReturnList = [Volt12VlineCheck,-1]
-    #TreatedDataReturnList = [VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean, Volt12VlineCheck,-1]
+    """TreatedDataReturnList = [Volt12VlineCheck,-1, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
+    for i in range(24):
+        TreatedDataReturnList.append(VoltMeanCCheck[i])
+        TreatedDataReturnList.append(VoltMeanCells[i])
+    for i in range(4):
+        TreatedDataReturnList.append(tempMeanCCheck[i])
+        TreatedDataReturnList.append(tempMeanCells[i])
+    
+    """
     return TreatedDataReturnList
