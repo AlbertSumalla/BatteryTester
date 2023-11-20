@@ -26,7 +26,7 @@ GPIONamesDict = {"GPIO17":["SORTIDA COMPROVADOR 11-16V"],
                  "GPIO12":[""],
                  "GPIO16":[""],
                  "GPIO20":[""],
-                 "GPIO21":[""]};
+                 "GPIO21":[""]}
 
 def setup_gpio():
     GPIO.setmode(GPIO.BCM)  # Set the mode to use GPIO numbers
