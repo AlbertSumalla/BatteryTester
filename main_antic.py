@@ -8,7 +8,7 @@ from PyQt5.QtGui import QColor
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.uic import loadUi
 from sim_results import*
-import test_loop as tl
+#import test_loop as tl
 
 class MainWindow(QMainWindow):
 	def __init__(self):
@@ -146,7 +146,7 @@ class MainWindow(QMainWindow):
 			self.increment += 5
 
 		elif self.increment == 500:
-			list_12V = tl.function_test_loop()
+			list_12V = function_test_loop()
 			self.stackedWidget_5.setCurrentIndex(list_12V[0])
 			self.label_5.setText(f"{data5_2:.2f} V")
 			self.increment += 5
