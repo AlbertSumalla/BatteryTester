@@ -5,14 +5,10 @@ from gpioconfig import *
 
 def function_test_loop():
 
+    #------------------------------------constants.py apart de les constants
+    
     bat_info = get_bms_data_test()
     
-    #Càlcul de mitjanes
-    VoltMean = 1 #s.mean
-    currMean = 1
-    tempMean = 1
-    SoCMean = 1
-    SoHMean = 1
     VoltMeanCells = []
     tempMeanCells = []
 
@@ -21,7 +17,6 @@ def function_test_loop():
     tempCells = []
     tempMeanCCheck = []
     
-    """-----------------------------------posar-ho darrere de Checks Cells Bateria
     Volt = pd.Series(bat_info.get_voltage())
     curr = pd.Series(bat_info.get_current())
     temp = pd.Series(bat_info.get_temperature())
@@ -33,13 +28,16 @@ def function_test_loop():
 
     for i in range(4):
         tempCells.append(pd.Series(bat_info.get_cell_temperature(i)))
-    #------------------------------------definició de les series que rebem
+
+    #------------------------------------Definició de les series que rebem de bms_com
 
     VoltMean = Volt.mean
     currMean = curr.mean
     tempMean = temp.mean
     SoCMean = SoC.mean
     SoHMean = SoH.mean
+
+    #------------------------------------Mitjana de cada serie de la bateria
 
     for i in range(24):
         VoltMeanCells.append(VoltCells[i].mean)
@@ -57,11 +55,12 @@ def function_test_loop():
         if (tempCells[i][c.tempMinCells >= tempCells[i]] != 0 or tempCells[i][c.tempMaxCells <= tempCells[i]] != 0):
             tempMeanCCheck[i] = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
             warningTC = 1
-        if (tempCells.count() < 5):
+        if (tempCells[i].count() < 5):
             tempMeanCCheck[i] = 4 #cas en què el nombre de lectures és massa baix (Warning)
             warningTC = 1
+
+    #-----------------------------------------Càlcul de mitjanes i dels warnings (alguna mesura fora del rang i poques mesures) de totes les cel·les
     
-    #------------------------------------mitjana de cada serie
     warningV = 0
     warningC = 0
     warningT = 0
@@ -69,7 +68,8 @@ def function_test_loop():
     warningSoH = 0
     warningVC = 0
     warningTC = 0
-    #-------------------------------------variables per evitar que els warnings i errors es solapin
+
+    #-------------------------------------Variables per evitar que els warnings i errors es solapin
 
     if (Volt[Volt < c.VoltMin].count() != 0 or Volt[Volt > c.VoltMax].count() != 0):
         VoltMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
@@ -87,7 +87,7 @@ def function_test_loop():
         SoHMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningSoH = 1
         
-    #----------------------------------mirem si alguna de les lectures de la llista que ens passen esta fora del rang
+    #----------------------------------Mirem si alguna de les lectures de la llista que ens passen esta fora del rang de la bateria (Warning 1)
 
     if (Volt.count() < 5):
         VoltMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
@@ -105,15 +105,8 @@ def function_test_loop():
         SoHMeanCheck = 4 #cas en què el nombre de lectures és massa baix (Warning)
         warningSoH = 1
     
-    #----------------------------------mirem si la quantitat de lectures no aberrants que té cada llista és suficient o no
-    """
+    #--------------------------------------Mirem si la quantitat de lectures no aberrants que té cada llista és suficient o no de la bateria (Warning 2)
 
-
-    #--------------------constants.py apart de les constants----------------------
-
-
-    #-------------------------------------------------------------------
-    #Checks Bateria
     if c.VoltMin >= VoltMean and warningV == 0:
         VoltMeanCheck = 2 #Voltage per sota mínims
     elif VoltMean >= c.VoltMax and warningV == 0:
@@ -142,9 +135,9 @@ def function_test_loop():
         SoHMeanCheck = 1 #SoH per sota del mínim
     elif warningSoH == 0:
         SoHMeanCheck = 0 #SoH dins dels marges
-
-
-    #Checks Cells Bateria 
+        
+#--------------------------------------------------Checks Bateria
+ 
     for i in range(24):
         if c.VoltMinCells >= VoltMeanCells[i] and warningVC == 0:
             VoltMeanCCheck[i] = 2 #Voltage de cel·les per sota mínims
@@ -153,31 +146,34 @@ def function_test_loop():
         elif warningVC == 0:
             VoltMeanCCheck[i] = 0 #Voltage de cel·les dins de marges
 
-    for i in range(4):
-        if c.tempMinCells >= tempMeanCells[i] and warningTC == 0:
-            tempMeanCCheck[i] = 2 #Temperatura de cel·les per sota mínims
-        elif tempMeanCells[i] >= c.tempMaxCells and warningTC == 0:
-            tempMeanCCheck[i] = 1 #Temperatura de cel·les per sobre màxims
+    for j in range(4):
+        if c.tempMinCells >= tempMeanCells[j] and warningTC == 0:
+            tempMeanCCheck[j] = 2 #Temperatura de cel·les per sota mínims
+        elif tempMeanCells[j] >= c.tempMaxCells and warningTC == 0:
+            tempMeanCCheck[j] = 1 #Temperatura de cel·les per sobre màxims
         elif warningTC == 0:
-            tempMeanCCheck[i] = 0 #Temperatura de cel·les dins dels marges
+            tempMeanCCheck[j] = 0 #Temperatura de cel·les dins dels marges
 
-    #Checks GPIOs
+    #-------------------------------------------------Checks Cells Bateria
+
     Volt12Vline = GPIOValuesDict["GPIO17"]
     if (Volt12Vline == 0):
-        Volt12VlineCheck = 1; #Voltage fora de rang (11V-16V)
+        Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
     else:
-        Volt12VlineCheck = 0; #Voltage dins de rang (11V-16V)
+        Volt12VlineCheck = 0 #Voltage dins de rang (11V-16V)
 
-    TreatedDataReturnList = [Volt12VlineCheck,-1]
-    """TreatedDataReturnList = [Volt12VlineCheck,-1, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
+    #-----------------------------------------------Checks GPIOs
+    
+    TreatedDataReturnList = [Volt12VlineCheck,-1, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
     for i in range(24):
         TreatedDataReturnList.append(VoltMeanCCheck[i])
         TreatedDataReturnList.append(VoltMeanCells[i])
-    for i in range(4):
-        TreatedDataReturnList.append(tempMeanCCheck[i])
-        TreatedDataReturnList.append(tempMeanCells[i])
+    for j in range(4):
+        TreatedDataReturnList.append(tempMeanCCheck[j])
+        TreatedDataReturnList.append(tempMeanCells[j])
+
+    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors
     
-    """
     return TreatedDataReturnList
 
 def failed_connection(Volt, curr, temp, SoC, SoH, VoltCells, tempCells):
