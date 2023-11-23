@@ -34,9 +34,9 @@ def setup_gpio():
     #             [GP19-> 35] [GP26-> 37] 
     #            
     # EVENS       [GP18-> 12]
-    #             [GP23-> 16] [GP24-> 18] [GP25-> 22]
-    #             [GP8-> 24] [GP7-> 26] [GP12-> 32]
-    #             [GP16-> 36] [GP20-> 38] [GP21-> 40] A
+    #             [GP23-> 16] [GP24-> 18] 
+    #             [GP7-> 26] 
+    #             [GP16-> 36] [GP20-> 38] [GP21-> 40] 
    
     for pin in gpio_pins:
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
