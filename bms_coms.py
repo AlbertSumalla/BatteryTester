@@ -3,6 +3,7 @@ import can
 import cantools
 from config_can import *
 
+"""
 db = setup_db_bms()
 
 bat_info = Battery_full()
@@ -67,12 +68,13 @@ bat_info.print_class()
 
 close_bus()
 
+"""
 
 #############################################################################################################
 
 def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de dades corresponent a les iteracions (1 iteracions = llegir despres d'enviar keep alive vins que deixi d'enviar) o -1 si no rep resopsta
-	bat_data = Battery_full()
-	bat_data.init_cells()
+	bat_info = Battery_full()
+	bat_info.init_cells()
 
 	n = 0
 	first_iteration = 1
@@ -102,7 +104,10 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 				can_bus.send(encode_keepalive(db))
 				n = n + 1
 
-			
+		
+		if msg_received.arbitration_id == 0x801:
+			bat_info.error_inv.append(msg_received.data)
+
 		try:
 			decoded_frame = db.decode_message(msg_received.arbitration_id, msg_received.data)
 		except Exception:
@@ -157,7 +162,7 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 				bat_info.set_serial(30, decoded_frame['Char at (seq number*7 + 2)'])
 				bat_info.set_serial(31, decoded_frame['Char at (seq number*7 + 3)'])
 
-	return bat_data
+	return bat_info
 
 
 
