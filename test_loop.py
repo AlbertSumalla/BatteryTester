@@ -1,4 +1,4 @@
-import bms_coms
+from bms_coms import *
 import pandas as pd
 import constants as c
 from gpioconfig import *
