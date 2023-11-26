@@ -61,33 +61,13 @@ def encode_ignition(db ,CAN_ignition):     #Retorna el misatge ignite
 def close_bus():    #Tanca el bus
     os.system('sudo ifconfig can0 down')
 
-def remove_outliers(list):  #treu els valors aberrants
+def remove_outliers(lista):  #treu els valors aberrants
+
+    if lista == 0:
+        lista.pop(0)
     
-	if list == 0:
-		list.pop(0)
+    return lista
 
-    return list
-
-	"""
-class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
-    def __init__(self):
-        self.voltage = []
-        self.temperature = []
-
-    def __str__(self):
-        return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.temperature)
-
-    def add_voltage(self, voltage):
-        self.voltage.append(voltage)
-
-    def add_temperature(self, temperature):
-        self.temperature.append(temperature)
-
-    def remove_outliers(self):
-
-        self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
-        self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
-	"""
 
 class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def __init__(self):
@@ -174,17 +154,7 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         return self.serial
 
     def remove_outliers(self):
-	"""
-        self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
 
-        self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
-
-        self.current = remove_outliers(self.current, MAX_OUTLIER_ERROR)
-
-        self.soc = remove_outliers(self.soc, MAX_OUTLIER_ERROR)
-
-        self.soh = remove_outliers(self.soh, MAX_OUTLIER_ERROR)
-	"""
         for i in range(24):
             self.cell_voltage[i] = remove_outliers(self.cell_voltage[i])
 
