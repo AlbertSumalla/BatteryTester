@@ -118,16 +118,16 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current.append(current)
 
     def add_soc(self, soc):
-        self.soc.append(Decimal(soc))
+        self.soc.append(soc)
 
     def add_soh(self, soh):
-        self.soh.append(Decimal(soh))
+        self.soh.append(soh)
 
     def add_cell_voltage(self, i, voltage):
-        self.cell_voltage[i].append(Decimal(voltage))
+        self.cell_voltage[i].append(voltage)
 
     def add_cell_temperature(self, i, temperature):
-        self.cell_temperature[i].append(Decimal(temperature))
+        self.cell_temperature[i].append(temperature)
 
     def set_serial(self, i, serial):
         self.serial[i] = serial
