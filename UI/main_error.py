@@ -22,16 +22,16 @@ class MainWindow(QMainWindow):
 		self.bt_max.clicked.connect(self.control_bt_max)
 		self.bt_window.clicked.connect(self.control_bt_rest)
 		self.bt_min.clicked.connect(self.control_bt_min)
-		self.bt_window.hide()
+		self.bt_max.hide()
 
 		# Eliminar barra de titulo
 		self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
 		self.setWindowOpacity(1)
 
 		# SizeGrip
-		self.gripSize = 10
-		self.grip = QtWidgets.QSizeGrip(self)
-		self.grip.resize(self.gripSize, self.gripSize)
+		# self.gripSize = 10
+		# self.grip = QtWidgets.QSizeGrip(self)
+		# self.grip.resize(self.gripSize, self.gripSize)
 
 		# Mover ventana
 		self.frame_superior.mouseMoveEvent = self.move_window
@@ -93,9 +93,9 @@ class MainWindow(QMainWindow):
 		self.showMinimized()
 
 	# SizeGrip
-	def resizeEvent(self, event):
-		rect = self.rect()
-		self.grip.move(rect.right() - self.gripSize, rect.bottom() - self.gripSize)
+	# def resizeEvent(self, event):
+	# 	rect = self.rect()
+	# 	self.grip.move(rect.right() - self.gripSize, rect.bottom() - self.gripSize)
 
 	# Mover ventana
 	def mousePressEvent(self, event):
