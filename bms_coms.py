@@ -146,21 +146,21 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 			bat_info.add_soh(decoded_frame['State_of_Health'])	
 
 		if msg_id == get_id_db(db, "BATTERY_SERIAL_NUMBER"):
-			i = decoded_frame['Sequence number']
+			i = decoded_frame['Sequence_number']
 
 			if i < 5:
-				bat_info.set_serial(i, decoded_frame['Char at (seq number*7 + 0)'])
-				bat_info.set_serial(i + 1, decoded_frame['Char at (seq number*7 + 1)'])
-				bat_info.set_serial(i + 2, decoded_frame['Char at (seq number*7 + 2)'])
-				bat_info.set_serial(i + 3, decoded_frame['Char at (seq number*7 + 3)'])
-				bat_info.set_serial(i + 4, decoded_frame['Char at (seq number*7 + 4)'])
-				bat_info.set_serial(i + 5, decoded_frame['Char at (seq number*7 + 5)'])
-				bat_info.set_serial(i + 6, decoded_frame['Char at (seq number*7 + 6)'])
+				bat_info.set_serial(i, decoded_frame['Char_at_seq_number_x_7_plus_0'])
+				bat_info.set_serial(i + 1, decoded_frame['Char_at_seq_number_x_7_plus_1'])
+				bat_info.set_serial(i + 2, decoded_frame['Char_at_seq_number_x_7_plus_2'])
+				bat_info.set_serial(i + 3, decoded_frame['Char_at_seq_number_x_7_plus_3'])
+				bat_info.set_serial(i + 4, decoded_frame['Char_at_seq_number_x_7_plus_4'])
+				bat_info.set_serial(i + 5, decoded_frame['Char_at_seq_number_x_7_plus_5'])
+				bat_info.set_serial(i + 6, decoded_frame['Char_at_seq_number_x_7_plus_6'])
 			else:
-				bat_info.set_serial(28, decoded_frame['Char at (seq number*7 + 0)'])
-				bat_info.set_serial(29, decoded_frame['Char at (seq number*7 + 1)'])
-				bat_info.set_serial(30, decoded_frame['Char at (seq number*7 + 2)'])
-				bat_info.set_serial(31, decoded_frame['Char at (seq number*7 + 3)'])
+				bat_info.set_serial(28, decoded_frame['Char_at_seq_number_x_7_plus_0'])
+				bat_info.set_serial(29, decoded_frame['Char_at_seq_number_x_7_plus_1'])
+				bat_info.set_serial(30, decoded_frame['Char_at_seq_number_x_7_plus_2'])
+				bat_info.set_serial(31, decoded_frame['Char_at_seq_number_x_7_plus_3'])
 
 	return bat_info
 
