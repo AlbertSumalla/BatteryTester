@@ -104,9 +104,9 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 				can_bus.send(encode_keepalive(db))
 				n = n + 1
 
-		
-		if msg_received.arbitration_id == 0x801:
-			bat_info.error_inv.append(msg_received.data)
+		if msg_received != None:
+			if msg_received.arbitration_id == 0x0081:
+				bat_info.error_inv.append(msg_received.data)
 
 		try:
 			decoded_frame = db.decode_message(msg_received.arbitration_id, msg_received.data)
@@ -168,7 +168,8 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 
 def get_bms_data_test():
 	bat_data = Battery_full()
-
+	bat_data.init_cells()
+	
 	voltage = [83.862,93.862,93.86,93.46]
 	current = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 	temperature = [28.3,28.3,28.3,28.3]
