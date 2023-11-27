@@ -21,8 +21,8 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
-    {"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True},
-    {"can_id": 0x801 , "can_mask": 0xfffffff, "extended": False}
+    	{"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True},
+    	{"can_id": 0x801 , "can_mask": 0xfffffff, "extended": False}
     ]
 
     return CAN_BMS_FILTERS
@@ -54,7 +54,7 @@ def encode_keepalive(db):     #Retorna el misatge keepalive
 
 def encode_ignition(db ,CAN_ignition):     #Retorna el misatge ignite
     ignition = db.get_message_by_name("IGNITION_OVER_CAN")
-    data = ignition.encode({CAN_ignition})
+    data = ignition.encode({"CAN_Ignition": CAN_ignition,"Ignition_Type": CAN_ignition})
 
     return can.Message(arbitration_id=ignition.frame_id, data=data, is_extended_id=True)
 
