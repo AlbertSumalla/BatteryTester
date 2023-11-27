@@ -504,7 +504,6 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_13.setCurrentIndex(2)
 			self.increment += 5
-			self.timer.stop()
 		
 		else:
 			self.increment += 5
@@ -521,6 +520,19 @@ class MainWindow(QMainWindow):
 			self.progressBar_11.setValue(self.increment-1000)
 			self.progressBar_12.setValue(self.increment-1100)
 			self.progressBar_13.setValue(self.increment-1200)
+		
+		#Posar al document .txt si la validació de cada bateria es correcte
+		if self.increment == 1400:
+			if (data1 == data2_1 == data2_2 == data2_3 == data3 == data4_1 == data4_2 == data4_2 == data5 == data6 == data7 == data8 == data9 == data10 == data11 == data12 == data13):
+				with open('numeros_de_serie.txt','a') as file:
+						file.write( 'OK \n')
+			elif ((data1 == 1 or data1 == 2) or (data2_1 == 1 or data2_1 == 2) or (data2_2 == 1 or data2_2 == 2) or (data2_3 == 1 or data2_3 == 2) or (data3 == 1) or (data4_1 == 1 or data4_1 == 2) or (data4_2 == 1 or data4_2 == 2) or (data4_3 == 1 or data4_3 == 2) or (data5 == 1 or data5 == 2) or (data6 == 1) or (data7 == 1) or (data8 == 1) or (data9 == 1) or (data10 == 1) or (data11 == 1) or (data12 == 1) or (data13 == 1)):
+				with open('numeros_de_serie.txt','a') as file:
+						file.write( 'ERROR \n')
+			else:
+				with open('numeros_de_serie.txt','a') as file:
+							file.write( 'WARNING \n')
+			self.timer.stop()
 
 	def startOperation(self):
 		'''
