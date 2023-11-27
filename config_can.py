@@ -22,7 +22,7 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
     	{"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True},
-    	{"can_id": 0x801 , "can_mask": 0xfffffff, "extended": False}
+    	{"can_id": 0x0081 , "can_mask": 0xffff, "extended": False}
     ]
 
     return CAN_BMS_FILTERS
