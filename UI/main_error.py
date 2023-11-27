@@ -2,7 +2,7 @@
 
 import sys
 import time
-from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QInputDialog
 from PyQt5.QtCore import QEasingCurve, QTimer
 from PyQt5.QtGui import QColor
 from PyQt5 import QtCore, QtWidgets
@@ -13,6 +13,9 @@ class MainWindow(QMainWindow):
 	def __init__(self):
 		super(MainWindow, self).__init__()
 		loadUi('Interficie1.1.ui', self)
+
+		# Inicializar full screen
+		self.showMaximized()
 
 		# Control barra de titulos
 		self.bt_close.clicked.connect(lambda: self.close())
@@ -70,7 +73,7 @@ class MainWindow(QMainWindow):
 		# Mostrar resultados
 		self.timer = QTimer(self)
 		self.increment = 0
-		self.bt_start.clicked.connect(self.startOperation)
+		self.bt_start.clicked.connect(self.show_serial_number_dialog)
 		#self.bt_start.clicked.connect(self.run)
 		self.bt_stop.clicked.connect(self.stopOperation)
 		self.bt_replay.clicked.connect(self.replayOperation)
@@ -585,6 +588,16 @@ class MainWindow(QMainWindow):
 		self.label_info11.setText(f"")
 		self.label_info12.setText(f"")
 		self.label_info13.setText(f"")
+
+	def show_serial_number_dialog(self):
+
+		serial_number, ok = QInputDialog.getText(self, 'Introducir Número de Serie', 'Por favor, introduce el número de serie:')
+        
+		if ok:
+			# Guardar el número de serie en un archivo
+			with open('numeros_de_serie.txt', 'a') as file:
+				file.write(serial_number)
+			self.startOperation()
 
 '''
 	start = 0
