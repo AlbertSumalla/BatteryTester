@@ -30,7 +30,9 @@ def function_test_loop():
     #------------------------------------constants.py apart de les constants
     
     bat_info = get_bms_data_test()
-    
+
+    inv_errors = get_inv_errors_test()
+
     VoltMeanCells = []
     tempMeanCells = []
 
