@@ -8,10 +8,6 @@ def function_test_loop():
 """
     db = setup_db_bms()
 
-    inv_errors = get_inv_errors()
-    
-    bat_info = get_bms_data_test()
-
     with setup_bus() as can0: # socketcan_native
 	
 	can0.set_filters(get_inv_filters())
