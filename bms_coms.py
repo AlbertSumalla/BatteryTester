@@ -247,4 +247,4 @@ def get_bms_data_test():
 	return bat_data
 
 def get_inv_errors_test():
-	return []
+	return [0x4dc3, 0x4d5d]
