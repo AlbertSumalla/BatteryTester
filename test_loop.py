@@ -14,7 +14,7 @@ def function_test_loop():
 
     with setup_bus() as can0: # socketcan_native
 	
-	    can0.set_filters(get_inv_filters())
+	can0.set_filters(get_inv_filters())
         
         inv_errors = get_inv_errors(can0, db)
 
