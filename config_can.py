@@ -21,10 +21,15 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
-    {"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True}
+    	{"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True},
     ]
-
-    return CAN_BMS_FILTERS
+     return CAN_BMS_FILTERS
+	
+def get_inv_filters():    #Filtres del inversor
+    CAN_INV_FILTERS =[
+	{"can_id": 0x0081 , "can_mask": 0xffff, "extended": False}
+    ]
+    return CAN_INV_FILTERS
 
 def get_id_db(db, name):
     return db.get_message_by_name(name).frame_id
@@ -53,7 +58,7 @@ def encode_keepalive(db):     #Retorna el misatge keepalive
 
 def encode_ignition(db ,CAN_ignition):     #Retorna el misatge ignite
     ignition = db.get_message_by_name("IGNITION_OVER_CAN")
-    data = ignition.encode({CAN_ignition})
+    data = ignition.encode({"CAN_Ignition": CAN_ignition,"Ignition_Type": CAN_ignition})
 
     return can.Message(arbitration_id=ignition.frame_id, data=data, is_extended_id=True)
 
@@ -61,33 +66,13 @@ def encode_ignition(db ,CAN_ignition):     #Retorna el misatge ignite
 def close_bus():    #Tanca el bus
     os.system('sudo ifconfig can0 down')
 
-def remove_outliers(list):  #treu els valors aberrants
+def remove_outliers(lista):  #treu els valors aberrants
+
+    if lista == 0:
+        lista.pop(0)
     
-	if list == 0:
-		list.pop(0)
+    return lista
 
-    return list
-
-	"""
-class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
-    def __init__(self):
-        self.voltage = []
-        self.temperature = []
-
-    def __str__(self):
-        return "Tensions = " + str(self.voltage) + " Temperatures = " + str(self.temperature)
-
-    def add_voltage(self, voltage):
-        self.voltage.append(voltage)
-
-    def add_temperature(self, temperature):
-        self.temperature.append(temperature)
-
-    def remove_outliers(self):
-
-        self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
-        self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
-	"""
 
 class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def __init__(self):
@@ -135,16 +120,16 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.current.append(current)
 
     def add_soc(self, soc):
-        self.soc.append(Decimal(soc))
+        self.soc.append(soc)
 
     def add_soh(self, soh):
-        self.soh.append(Decimal(soh))
+        self.soh.append(soh)
 
     def add_cell_voltage(self, i, voltage):
-        self.cell_voltage[i].append(Decimal(voltage))
+        self.cell_voltage[i].append(voltage)
 
     def add_cell_temperature(self, i, temperature):
-        self.cell_temperature[i].append(Decimal(temperature))
+        self.cell_temperature[i].append(temperature)
 
     def set_serial(self, i, serial):
         self.serial[i] = serial
@@ -174,17 +159,7 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         return self.serial
 
     def remove_outliers(self):
-	"""
-        self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
 
-        self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
-
-        self.current = remove_outliers(self.current, MAX_OUTLIER_ERROR)
-
-        self.soc = remove_outliers(self.soc, MAX_OUTLIER_ERROR)
-
-        self.soh = remove_outliers(self.soh, MAX_OUTLIER_ERROR)
-	"""
         for i in range(24):
             self.cell_voltage[i] = remove_outliers(self.cell_voltage[i])
 

@@ -3,6 +3,7 @@ import can
 import cantools
 from config_can import *
 
+"""
 db = setup_db_bms()
 
 bat_info = Battery_full()
@@ -67,47 +68,38 @@ bat_info.print_class()
 
 close_bus()
 
+"""
 
 #############################################################################################################
 
 def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de dades corresponent a les iteracions (1 iteracions = llegir despres d'enviar keep alive vins que deixi d'enviar) o -1 si no rep resopsta
-	bat_data = Battery_full()
-	bat_data.init_cells()
+	bat_info = Battery_full()
+	bat_info.init_cells()
 
 	n = 0
-	first_iteration = 1
+	e = 0
+	
+	can_bus.send(encode_keepalive(db))
+	
+	while n < iterations:	
 
-	while n < iterations:
+		msg_received = can_bus.recv(0.5)
+
+		if e = 3: 
+			return -1
 		
-		
-		if first_iteration:
-			can_bus.send(encode_ignition(db, 1))
+		if msg_received == None:
+			can_bus.send(encode_keepalive(db))
+			n = n + 1
+			e = e + 1
 
-			msg_received = can_bus.recv(1)
-
-			if msg_received == None:
-				can_bus.send(encode_keepalive(db))
-
-				msg_received = can_bus.recv(1)
-
-				if msg_received == None: return -1
-
-			first_iteration = 0 
-
-		else:
-			
-			msg_received = can_bus.recv(1)
-
-			if msg_received == None:
-				can_bus.send(encode_keepalive(db))
-				n = n + 1
-
-			
 		try:
 			decoded_frame = db.decode_message(msg_received.arbitration_id, msg_received.data)
 		except Exception:
 			continue
 
+		e = 0
+		
 		msg_id = msg_received.arbitration_id
 
 		if msg_id == get_id_db(db, "VOLTAGE_INFO"):
@@ -141,29 +133,55 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 			bat_info.add_soh(decoded_frame['State_of_Health'])	
 
 		if msg_id == get_id_db(db, "BATTERY_SERIAL_NUMBER"):
-			i = decoded_frame['Sequence number']
+			i = decoded_frame['Sequence_number']
 
 			if i < 5:
-				bat_info.set_serial(i, decoded_frame['Char at (seq number*7 + 0)'])
-				bat_info.set_serial(i + 1, decoded_frame['Char at (seq number*7 + 1)'])
-				bat_info.set_serial(i + 2, decoded_frame['Char at (seq number*7 + 2)'])
-				bat_info.set_serial(i + 3, decoded_frame['Char at (seq number*7 + 3)'])
-				bat_info.set_serial(i + 4, decoded_frame['Char at (seq number*7 + 4)'])
-				bat_info.set_serial(i + 5, decoded_frame['Char at (seq number*7 + 5)'])
-				bat_info.set_serial(i + 6, decoded_frame['Char at (seq number*7 + 6)'])
+				bat_info.set_serial(i, decoded_frame['Char_at_seq_number_x_7_plus_0'])
+				bat_info.set_serial(i + 1, decoded_frame['Char_at_seq_number_x_7_plus_1'])
+				bat_info.set_serial(i + 2, decoded_frame['Char_at_seq_number_x_7_plus_2'])
+				bat_info.set_serial(i + 3, decoded_frame['Char_at_seq_number_x_7_plus_3'])
+				bat_info.set_serial(i + 4, decoded_frame['Char_at_seq_number_x_7_plus_4'])
+				bat_info.set_serial(i + 5, decoded_frame['Char_at_seq_number_x_7_plus_5'])
+				bat_info.set_serial(i + 6, decoded_frame['Char_at_seq_number_x_7_plus_6'])
 			else:
-				bat_info.set_serial(28, decoded_frame['Char at (seq number*7 + 0)'])
-				bat_info.set_serial(29, decoded_frame['Char at (seq number*7 + 1)'])
-				bat_info.set_serial(30, decoded_frame['Char at (seq number*7 + 2)'])
-				bat_info.set_serial(31, decoded_frame['Char at (seq number*7 + 3)'])
+				bat_info.set_serial(28, decoded_frame['Char_at_seq_number_x_7_plus_0'])
+				bat_info.set_serial(29, decoded_frame['Char_at_seq_number_x_7_plus_1'])
+				bat_info.set_serial(30, decoded_frame['Char_at_seq_number_x_7_plus_2'])
+				bat_info.set_serial(31, decoded_frame['Char_at_seq_number_x_7_plus_3'])
 
-	return bat_data
+	return bat_info
 
+def get_inv_errors(can_bus,db):
 
+	can_bus.send(encode_ignition(db, 0))
+
+	can_bus.send(encode_ignition(db, 1))
+
+	error_list = []
+
+	msg_received = can_bus.recv(0.5)
+	
+	while msg_received != None: 
+		if msg_received.arbitration_id == 0x0081:
+			bytes = msg_received.data
+
+			bytes &= 0x000000ffff000000
+			data_0 = bytes >> (4*8)
+			data_1 = bytes >> (4*4)
+
+			data_1 &= 0xff00
+
+			error_list.append(data_1 | data _0)
+			
+	return error_list
+		
+
+	
 
 def get_bms_data_test():
 	bat_data = Battery_full()
-
+	bat_data.init_cells()
+	
 	voltage = [83.862,93.862,93.86,93.46]
 	current = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 	temperature = [28.3,28.3,28.3,28.3]
@@ -227,3 +245,6 @@ def get_bms_data_test():
 			bat_data.add_cell_temperature(i ,values)
 
 	return bat_data
+
+def get_inv_errors_test():
+	return [0x4dc3, 0x4d5d]
