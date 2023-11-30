@@ -22,10 +22,14 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
     	{"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True},
-    	{"can_id": 0x0081 , "can_mask": 0xffff, "extended": False}
     ]
-
-    return CAN_BMS_FILTERS
+     return CAN_BMS_FILTERS
+	
+def get_inv_filters():    #Filtres del inversor
+    CAN_INV_FILTERS =[
+	{"can_id": 0x0081 , "can_mask": 0xffff, "extended": False}
+    ]
+    return CAN_INV_FILTERS
 
 def get_id_db(db, name):
     return db.get_message_by_name(name).frame_id
@@ -80,7 +84,6 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.cell_voltage = []
         self.cell_temperature = []
         self.serial = []               # el num de serie té 32 caracters que guardo a una lista per fer més facil l'ordre
-        self.error_inv = []            # preliminar
         
     def init_cells(self):
 
@@ -100,7 +103,6 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         print(self.soc)
         print(self.soh)
         print(self.serial)
-        print(self.error_inv)
 
         for i in range(24):
             print("Cell voltage " + str(i) + " " + str(self.cell_voltage[i]))
