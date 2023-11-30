@@ -1,3 +1,4 @@
+from config_can import *
 from bms_coms import *
 import pandas as pd
 from constants import *
