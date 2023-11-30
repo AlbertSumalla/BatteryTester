@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
 #This .py initializes the gpio pins (all inputs) and prints its values to the terminal
