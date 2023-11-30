@@ -1,6 +1,6 @@
 from bms_coms import *
 import pandas as pd
-import constants as c
+from constants import *
 from gpioconfig import *
 
 def function_test_loop():
@@ -13,9 +13,9 @@ def function_test_loop():
     tempMeanCells = []
 
     VoltCells = []
-    VoltMeanCCheck = []
+    VoltMeanCCheck = [0]*24
     tempCells = []
-    tempMeanCCheck = []
+    tempMeanCCheck = [0]*4
     
     Volt = pd.Series(bat_info.get_voltage())
     curr = pd.Series(bat_info.get_current())
@@ -31,18 +31,18 @@ def function_test_loop():
 
     #------------------------------------Definició de les series que rebem de bms_com
 
-    VoltMean = Volt.mean
-    currMean = curr.mean
-    tempMean = temp.mean
-    SoCMean = SoC.mean
-    SoHMean = SoH.mean
+    VoltMean = Volt.mean()
+    currMean = curr.mean()
+    tempMean = temp.mean()
+    SoCMean = SoC.mean()
+    SoHMean = SoH.mean()
 
     #------------------------------------Mitjana de cada serie de la bateria
 
     for i in range(24):
-        VoltMeanCells.append(VoltCells[i].mean)
+        VoltMeanCells.append(VoltCells[i].mean())
 
-        if (VoltCells[i][VoltCells[i] < c.VoltMinCells].count() != 0 or VoltCells[i][VoltCells[i] > c.VoltMaxCells].count() != 0):
+        if (VoltCells[i][VoltCells[i] < VoltMinCells].count() != 0 or VoltCells[i][VoltCells[i] > VoltMaxCells].count() != 0):
             VoltMeanCCheck[i] = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
             warningVC = 1
         if (VoltCells[i].count() < 5):
@@ -50,9 +50,9 @@ def function_test_loop():
             warningVC = 1
       
     for i in range(4):
-        tempMeanCells.append(tempCells[i].mean)
+        tempMeanCells.append(tempCells[i].mean())
 
-        if (tempCells[i][c.tempMinCells >= tempCells[i]] != 0 or tempCells[i][c.tempMaxCells <= tempCells[i]] != 0):
+        if (tempCells[i][tempMinCells >= tempCells[i]].count() != 0 or tempCells[i][tempMaxCells <= tempCells[i]].count() != 0):
             tempMeanCCheck[i] = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
             warningTC = 1
         if (tempCells[i].count() < 5):
@@ -71,19 +71,19 @@ def function_test_loop():
 
     #-------------------------------------Variables per evitar que els warnings i errors es solapin
 
-    if (Volt[Volt < c.VoltMin].count() != 0 or Volt[Volt > c.VoltMax].count() != 0):
+    if (Volt[Volt < VoltMin].count() != 0 or Volt[Volt > VoltMax].count() != 0):
         VoltMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningV = 1
-    if (curr[c.currExpect - c.RangecurrMin < curr].count() != 0 or curr[curr < c.currExpect - c.RangecurrMin].count() != 0):
+    if (curr[currExpect - RangecurrMin < curr].count() != 0 or curr[curr < currExpect - RangecurrMin].count() != 0):
         currMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningC = 1
-    if (temp[c.tempMin >= temp] != 0 or temp[c.tempMax <= temp] != 0):
+    if (temp[tempMin >= temp].count() != 0 or temp[tempMax <= temp].count() != 0):
         tempMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningT = 1
-    if (SoC[c.SoCMin >= SoC] != 0):
+    if (SoC[SoCMin >= SoC].count() != 0):
         SoCMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningSoC = 1
-    if (SoH[c.SoHMin >= SoH] != 0):
+    if (SoH[SoHMin >= SoH].count() != 0):
         SoHMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningSoH = 1
         
@@ -107,31 +107,31 @@ def function_test_loop():
     
     #--------------------------------------Mirem si la quantitat de lectures no aberrants que té cada llista és suficient o no de la bateria (Warning 2)
 
-    if c.VoltMin >= VoltMean and warningV == 0:
+    if VoltMin >= VoltMean and warningV == 0:
         VoltMeanCheck = 2 #Voltage per sota mínims
-    elif VoltMean >= c.VoltMax and warningV == 0:
+    elif VoltMean >= VoltMax and warningV == 0:
         VoltMeanCheck = 1 #Voltage per sobre màxims
     elif warningV == 0:
         VoltMeanCheck = 0 #Voltage dins de marges
 
-    if (c.currExpect - c.RangecurrMin < currMean < c.currExpect + c.RangecurrMax) and warningC == 0:
+    if (currExpect - RangecurrMin < currMean < currExpect + RangecurrMax) and warningC == 0:
         currMeanCheck = 0 #Corrent dins de marges
     elif warningV == 0:
         currMeanCheck = 1 #Corrent fora de l'esperat
 
-    if c.tempMin >= tempMean and warningT == 0:
+    if tempMin >= tempMean and warningT == 0:
         tempMeanCheck = 2 #Temperatura per sota mínims
-    elif tempMean >= c.tempMax and warningT == 0:
+    elif tempMean >= tempMax and warningT == 0:
         tempMeanCheck = 1 #Temperatura per sobre màxims
     elif warningT == 0:
         tempMeanCheck = 0 #Temperatura dins de marges
 
-    if c.SoCMin >= SoCMean and warningSoC == 0:
+    if SoCMin >= SoCMean and warningSoC == 0:
         SoCMeanCheck = 1 #SoC per sota del mínim
     elif warningSoC == 0:
         SoCMeanCheck = 0 #SoC dins dels marges
 
-    if c.SoHMin >= SoHMean and warningSoH == 0:
+    if SoHMin >= SoHMean and warningSoH == 0:
         SoHMeanCheck = 1 #SoH per sota del mínim
     elif warningSoH == 0:
         SoHMeanCheck = 0 #SoH dins dels marges
@@ -139,17 +139,17 @@ def function_test_loop():
 #--------------------------------------------------Checks Bateria
  
     for i in range(24):
-        if c.VoltMinCells >= VoltMeanCells[i] and warningVC == 0:
+        if VoltMinCells >= VoltMeanCells[i] and warningVC == 0:
             VoltMeanCCheck[i] = 2 #Voltage de cel·les per sota mínims
-        elif VoltMeanCells[i] >= c.VoltMaxCells and warningVC == 0:
+        elif VoltMeanCells[i] >= VoltMaxCells and warningVC == 0:
             VoltMeanCCheck[i] = 1 #Voltage de cel·les per sobre màxims
         elif warningVC == 0:
             VoltMeanCCheck[i] = 0 #Voltage de cel·les dins de marges
 
     for j in range(4):
-        if c.tempMinCells >= tempMeanCells[j] and warningTC == 0:
+        if tempMinCells >= tempMeanCells[j] and warningTC == 0:
             tempMeanCCheck[j] = 2 #Temperatura de cel·les per sota mínims
-        elif tempMeanCells[j] >= c.tempMaxCells and warningTC == 0:
+        elif tempMeanCells[j] >= tempMaxCells and warningTC == 0:
             tempMeanCCheck[j] = 1 #Temperatura de cel·les per sobre màxims
         elif warningTC == 0:
             tempMeanCCheck[j] = 0 #Temperatura de cel·les dins dels marges

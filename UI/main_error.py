@@ -2,7 +2,7 @@
 
 import sys
 import time
-from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QInputDialog
 from PyQt5.QtCore import QEasingCurve, QTimer
 from PyQt5.QtGui import QColor
 from PyQt5 import QtCore, QtWidgets
@@ -14,21 +14,24 @@ class MainWindow(QMainWindow):
 		super(MainWindow, self).__init__()
 		loadUi('Interficie1.1.ui', self)
 
+		# Inicializar full screen
+		self.showMaximized()
+
 		# Control barra de titulos
 		self.bt_close.clicked.connect(lambda: self.close())
 		self.bt_max.clicked.connect(self.control_bt_max)
 		self.bt_window.clicked.connect(self.control_bt_rest)
 		self.bt_min.clicked.connect(self.control_bt_min)
-		self.bt_window.hide()
+		self.bt_max.hide()
 
 		# Eliminar barra de titulo
 		self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
 		self.setWindowOpacity(1)
 
 		# SizeGrip
-		self.gripSize = 10
-		self.grip = QtWidgets.QSizeGrip(self)
-		self.grip.resize(self.gripSize, self.gripSize)
+		# self.gripSize = 10
+		# self.grip = QtWidgets.QSizeGrip(self)
+		# self.grip.resize(self.gripSize, self.gripSize)
 
 		# Mover ventana
 		self.frame_superior.mouseMoveEvent = self.move_window
@@ -70,7 +73,7 @@ class MainWindow(QMainWindow):
 		# Mostrar resultados
 		self.timer = QTimer(self)
 		self.increment = 0
-		self.bt_start.clicked.connect(self.startOperation)
+		self.bt_start.clicked.connect(self.show_serial_number_dialog)
 		#self.bt_start.clicked.connect(self.run)
 		self.bt_stop.clicked.connect(self.stopOperation)
 		self.bt_replay.clicked.connect(self.replayOperation)
@@ -90,9 +93,9 @@ class MainWindow(QMainWindow):
 		self.showMinimized()
 
 	# SizeGrip
-	def resizeEvent(self, event):
-		rect = self.rect()
-		self.grip.move(rect.right() - self.gripSize, rect.bottom() - self.gripSize)
+	# def resizeEvent(self, event):
+	# 	rect = self.rect()
+	# 	self.grip.move(rect.right() - self.gripSize, rect.bottom() - self.gripSize)
 
 	# Mover ventana
 	def mousePressEvent(self, event):
@@ -501,7 +504,6 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_13.setCurrentIndex(2)
 			self.increment += 5
-			self.timer.stop()
 		
 		else:
 			self.increment += 5
@@ -518,6 +520,19 @@ class MainWindow(QMainWindow):
 			self.progressBar_11.setValue(self.increment-1000)
 			self.progressBar_12.setValue(self.increment-1100)
 			self.progressBar_13.setValue(self.increment-1200)
+		
+		#Posar al document .txt si la validació de cada bateria es correcte
+		if self.increment == 1400:
+			if (data1 == data2_1 == data2_2 == data2_3 == data3 == data4_1 == data4_2 == data4_2 == data5 == data6 == data7 == data8 == data9 == data10 == data11 == data12 == data13):
+				with open('numeros_de_serie.txt','a') as file:
+						file.write( 'OK \n')
+			elif ((data1 == 1 or data1 == 2) or (data2_1 == 1 or data2_1 == 2) or (data2_2 == 1 or data2_2 == 2) or (data2_3 == 1 or data2_3 == 2) or (data3 == 1) or (data4_1 == 1 or data4_1 == 2) or (data4_2 == 1 or data4_2 == 2) or (data4_3 == 1 or data4_3 == 2) or (data5 == 1 or data5 == 2) or (data6 == 1) or (data7 == 1) or (data8 == 1) or (data9 == 1) or (data10 == 1) or (data11 == 1) or (data12 == 1) or (data13 == 1)):
+				with open('numeros_de_serie.txt','a') as file:
+						file.write( 'ERROR \n')
+			else:
+				with open('numeros_de_serie.txt','a') as file:
+							file.write( 'WARNING \n')
+			self.timer.stop()
 
 	def startOperation(self):
 		'''
@@ -585,6 +600,16 @@ class MainWindow(QMainWindow):
 		self.label_info11.setText(f"")
 		self.label_info12.setText(f"")
 		self.label_info13.setText(f"")
+
+	def show_serial_number_dialog(self):
+
+		serial_number, ok = QInputDialog.getText(self, 'Introducir Número de Serie', 'Por favor, introduce el número de serie:')
+        
+		if ok:
+			# Guardar el número de serie en un archivo
+			with open('numeros_de_serie.txt', 'a') as file:
+				file.write(serial_number)
+			self.startOperation()
 
 '''
 	start = 0
