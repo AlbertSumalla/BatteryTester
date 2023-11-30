@@ -210,7 +210,7 @@ def function_test_loop():
             TreatedDataReturnList.append(errors_inv[k])
     else:
         TreatedDataReturnList.append(-1)
-    print(TreatedDataReturnList)
+    
     #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors (tant de bms com de l'inversor)
     
     return TreatedDataReturnList
