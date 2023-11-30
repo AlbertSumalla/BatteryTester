@@ -77,42 +77,29 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 	bat_info.init_cells()
 
 	n = 0
-	first_iteration = 1
+	e = 0
+	
+	can_bus.send(encode_keepalive(db))
+	
+	while n < iterations:	
 
-	while n < iterations:
+		msg_received = can_bus.recv(0.5)
+
+		if e = 3: 
+			return -1
 		
-		
-		if first_iteration:
-			can_bus.send(encode_ignition(db, 1))
-
-			msg_received = can_bus.recv(1)
-
-			if msg_received == None:
-				can_bus.send(encode_keepalive(db))
-
-				msg_received = can_bus.recv(1)
-
-				if msg_received == None: return -1
-
-			first_iteration = 0 
-
-		else:
-			
-			msg_received = can_bus.recv(1)
-
-			if msg_received == None:
-				can_bus.send(encode_keepalive(db))
-				n = n + 1
-
-		if msg_received != None:
-			if msg_received.arbitration_id == 0x0081:
-				bat_info.error_inv.append(msg_received.data)
+		if msg_received == None:
+			can_bus.send(encode_keepalive(db))
+			n = n + 1
+			e = e + 1
 
 		try:
 			decoded_frame = db.decode_message(msg_received.arbitration_id, msg_received.data)
 		except Exception:
 			continue
 
+		e = 0
+		
 		msg_id = msg_received.arbitration_id
 
 		if msg_id == get_id_db(db, "VOLTAGE_INFO"):
@@ -164,7 +151,32 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 
 	return bat_info
 
+def get_inv_errors(can_bus,db):
 
+	can_bus.send(encode_ignition(db, 0))
+
+	can_bus.send(encode_ignition(db, 1))
+
+	error_list = []
+
+	msg_received = can_bus.recv(0.5)
+	
+	while msg_received != None: 
+		if msg_received.arbitration_id == 0x0081:
+			bytes = msg_received.data
+
+			bytes &= 0x000000ffff000000
+			data_0 = bytes >> (4*8)
+			data_1 = bytes >> (4*4)
+
+			data_1 &= 0xff00
+
+			error_list.append(data_1 | data _0)
+			
+	return error_list
+		
+
+	
 
 def get_bms_data_test():
 	bat_data = Battery_full()
@@ -233,3 +245,6 @@ def get_bms_data_test():
 			bat_data.add_cell_temperature(i ,values)
 
 	return bat_data
+
+def get_inv_errors_test():
+	return []
