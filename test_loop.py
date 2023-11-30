@@ -5,29 +5,10 @@ from constants import *
 from gpioconfig import *
 
 def function_test_loop():
-"""
-    db = setup_db_bms()
-
-    with setup_bus() as can0: # socketcan_native
-	
-	can0.set_filters(get_inv_filters())
-        
-        inv_errors = get_inv_errors(can0, db)
-
-        can0.set_filters(get_bms_filters(db))
     
-        bat_info = get_bms_data_test(can0, db, 2)
-    
-    bat_info.remove_outliers()
-
-    close_bus()
-
-"""
     #------------------------------------constants.py apart de les constants
     
     bat_info = get_bms_data_test()
-
-    inv_errors = get_inv_errors_test()
 
     VoltMeanCells = []
     tempMeanCells = []
@@ -49,7 +30,7 @@ def function_test_loop():
     for i in range(4):
         tempCells.append(pd.Series(bat_info.get_cell_temperature(i)))
 
-    #------------------------------------Definició de les series que rebem de bms_com
+    #------------------------------------Definició de les series que rebem de bms_coms
 
     VoltMean = Volt.mean()
     currMean = curr.mean()
@@ -176,6 +157,38 @@ def function_test_loop():
 
     #-------------------------------------------------Checks Cells Bateria
 
+   """
+    db = setup_db_bms()
+
+    with setup_bus() as can0: # socketcan_native
+	
+	can0.set_filters(get_inv_filters())
+        
+        inv_errors = get_inv_errors(can0, db)
+
+        can0.set_filters(get_bms_filters(db))
+    
+        bat_info = get_bms_data_test(can0, db, 2)
+    
+    bat_info.remove_outliers()
+
+    close_bus()
+
+   """
+   
+    inv_errors = get_inv_errors_test()
+
+    errors_inv = pd.Series(inv_errors)
+
+    #--------------------------------------Definició de la serie d'errors del inversor que rebem de bms_coms
+
+    if (errors_inv.count() == 0):
+	    errors_inv_check = 0 #L'inversor no ens envia cap error
+    else:
+	    errors_inv_check = 1 #L'inversor ens envia algún error que enviarem a la UI
+
+    #-------------------------------------Comprovem si l'inversor ens envia algún error o no
+
     Volt12Vline = GPIOValuesDict["GPIO17"]
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
@@ -191,8 +204,14 @@ def function_test_loop():
     for j in range(4):
         TreatedDataReturnList.append(tempMeanCCheck[j])
         TreatedDataReturnList.append(tempMeanCells[j])
+    TreatedDataReturnList.append(errors_inv_check)
+    if (errors_inv_check == 1):
+	    for k in range(errors_inv.count()):
+		    TreatedDataReturnList.append(errors_inv[k])
+    else:
+	    TreatedDataReturnList.append(-1)
 
-    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors
+    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors (tant de bms com de l'inversor)
     
     return TreatedDataReturnList
 
