@@ -6,6 +6,7 @@ from gpioconfig import *
 
 def function_test_loop():
     
+    
     #------------------------------------constants.py apart de les constants
     
     bat_info = get_bms_data_test()
@@ -161,8 +162,8 @@ def function_test_loop():
     #db = setup_db_bms()
 
     #with setup_bus() as can0: # socketcan_native
-	
-	#can0.set_filters(get_inv_filters())
+    
+    #can0.set_filters(get_inv_filters())
         
         #inv_errors = get_inv_errors(can0, db)
 
@@ -181,13 +182,14 @@ def function_test_loop():
     #--------------------------------------Definició de la serie d'errors del inversor que rebem de bms_coms
 
     if (errors_inv.count() == 0):
-	    errors_inv_check = 0 #L'inversor no ens envia cap error
-    else:
-	    errors_inv_check = 1 #L'inversor ens envia algún error que enviarem a la UI
+        errors_inv_check = 0 #L'inversor no ens envia cap error
+    else :
+        errors_inv_check = 1 #L'inversor ens envia algún error que enviarem a la UI
 
     #-------------------------------------Comprovem si l'inversor ens envia algún error o no
 
     Volt12Vline = GPIOValuesDict["GPIO17"]
+
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
     else:
@@ -204,10 +206,10 @@ def function_test_loop():
         TreatedDataReturnList.append(tempMeanCells[j])
     TreatedDataReturnList.append(errors_inv_check)
     if (errors_inv_check == 1):
-	    for k in range(errors_inv.count()):
-		    TreatedDataReturnList.append(errors_inv[k])
+        for k in range(errors_inv.count()):
+            TreatedDataReturnList.append(errors_inv[k])
     else:
-	    TreatedDataReturnList.append(-1)
+        TreatedDataReturnList.append(-1)
 
     #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors (tant de bms com de l'inversor)
     
