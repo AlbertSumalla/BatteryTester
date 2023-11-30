@@ -157,24 +157,22 @@ def function_test_loop():
 
     #-------------------------------------------------Checks Cells Bateria
 
-   """
-    db = setup_db_bms()
+   
+    #db = setup_db_bms()
 
-    with setup_bus() as can0: # socketcan_native
+    #with setup_bus() as can0: # socketcan_native
 	
-	can0.set_filters(get_inv_filters())
+	#can0.set_filters(get_inv_filters())
         
-        inv_errors = get_inv_errors(can0, db)
+        #inv_errors = get_inv_errors(can0, db)
 
-        can0.set_filters(get_bms_filters(db))
+        #can0.set_filters(get_bms_filters(db))
     
-        bat_info = get_bms_data_test(can0, db, 2)
+        #bat_info = get_bms_data_test(can0, db, 2)
     
-    bat_info.remove_outliers()
+    #bat_info.remove_outliers()
 
-    close_bus()
-
-   """
+    #close_bus()
    
     inv_errors = get_inv_errors_test()
 
