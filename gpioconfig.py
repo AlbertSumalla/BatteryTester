@@ -55,6 +55,8 @@ def check_gpio_states(gpio_pins):
                 print(f"Pin {pin} is HIGH,")
             else:
                 print(f"Pin {pin} is LOW")
+    else:
+        print(f"ADC read error")
 
 def gpio_read_return(): #The function we need to call from outside
     check_gpio_states(gpio_pins_setup)
