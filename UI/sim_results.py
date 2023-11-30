@@ -1,4 +1,4 @@
-data1 = 10
+data1 = 3
 data2_1 = 2
 data2_2 = 1
 data2_3 = 0
