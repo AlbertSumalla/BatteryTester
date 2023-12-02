@@ -189,6 +189,10 @@ def function_test_loop():
     #-------------------------------------Comprovem si l'inversor ens envia algún error o no
 
     Volt12Vline = GPIOValuesDict["GPIO17"]
+    Value12VlineESP32 = GPIOValuesDict["GPIO18","GPIO26","GPIO19","GPIO13","GPIO6","GPIO5","GPIO22","GPIO27"]
+    Bits_string_12V = ''.join(map(str, Value12VlineESP32)) # Bits a string
+    Decimal_value_12V = int(Bits_string_12V, 2) # String a decimal
+    Value12V_escalat = (float(Decimal_value_12V) / 255) * 20.0 #Acabar d'ajustar aquest 20 amb testeig
 
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
@@ -197,7 +201,7 @@ def function_test_loop():
 
     #-----------------------------------------------Checks GPIOs
     
-    TreatedDataReturnList = [Volt12VlineCheck,-1, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
+    TreatedDataReturnList = [Volt12VlineCheck, Value12V_escalat, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
     for i in range(24):
         TreatedDataReturnList.append(VoltMeanCCheck[i])
         TreatedDataReturnList.append(VoltMeanCells[i])
