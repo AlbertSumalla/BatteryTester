@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 6348342ERROR 
 =======
+=======
+>>>>>>> 989efc648ecf48c209491419b6a2dc2a8b523a35
 123ERROR 
 12ERROR 
 123ERROR 
@@ -23,4 +26,7 @@
 0909 ERROR 
 8 89789 ERROR 
 9 9879 ERROR 
+<<<<<<< HEAD
+>>>>>>> 989efc648ecf48c209491419b6a2dc2a8b523a35
+=======
 >>>>>>> 989efc648ecf48c209491419b6a2dc2a8b523a35
