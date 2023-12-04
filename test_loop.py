@@ -241,11 +241,21 @@ def function_test_loop():
 
     #-------------------------------------Comprovem si l'inversor ens envia algún error o no
     
+    GPIOValuesDict = gpio_read_return()
     Volt12Vline = GPIOValuesDict["GPIO17"]
-    Value12VlineESP32 = GPIOValuesDict["GPIO18","GPIO26","GPIO19","GPIO13","GPIO6","GPIO5","GPIO22","GPIO27"]
-    Bits_string_12V = ''.join(map(str, Value12VlineESP32)) # Bits a string
-    Decimal_value_12V = int(Bits_string_12V, 2) # String a decimal
-    Value12V_escalat = (float(Decimal_value_12V) / 255) * 20.0 #Acabar d'ajustar aquest 20 amb testeig
+    Value12VlineESP32 = []
+    Value12VlineESP32.append(GPIOValuesDict["GPIO18"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO26"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO19"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO13"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO6"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO5"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO22"])
+    Value12VlineESP32.append(GPIOValuesDict["GPIO27"])
+    Decimal_value_12V = 0
+    for i in range (8):
+        Decimal_value_12V += ((2**i)*(Value12VlineESP32[7-i]))
+    Value12V_escalat = ((Decimal_value_12V+16) * 20) / 255 #Acabar d'ajustar aquest 20 i 16 amb testeig
 
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)

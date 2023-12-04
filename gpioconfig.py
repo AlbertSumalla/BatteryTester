@@ -4,7 +4,7 @@ import time
 #This .py initializes the gpio pins (all inputs) and prints its values to the terminal
 #It also saves the value of each pin in a dictionary with the format [GPIOXX:'0' OR '1'] where XX is the GPIOXX number
 
-GPIOValuesDict = {"GPIO17":[],"GPIO27":[],"GPIO22":[],"GPIO5":[],"GPIO6":[],"GPIO13":[],"GPIO19":[],"GPIO26":[],"GPIO18":[],"GPIO24":[],"GPIO7":[],"GPIO16":[],"GPIO20":[],"GPIO21":[]};
+GPIOValuesDict = {"GPIO17":0,"GPIO27":0,"GPIO22":0,"GPIO5":0,"GPIO6":0,"GPIO13":0,"GPIO19":0,"GPIO26":0,"GPIO18":0,"GPIO24":0,"GPIO7":0,"GPIO16":0,"GPIO20":0,"GPIO21":0};
 
 #SECONDARY DICTIONARY to know what each pin does mean in the sense of the project
 
@@ -45,11 +45,11 @@ def setup_gpio():
 
 def check_gpio_states(gpio_pins):
     GPIO.output(23, GPIO.HIGH)
-    time.sleep(1)
+    time.sleep(3)
     if (GPIO.input(24)):  #We make shure that the lecture from the ESP32 is ready to be read by the raspberry
         for pin in gpio_pins:
             input_state = GPIO.input(pin)
-            GPIOValuesDict[f"GPIO{pin}"].append(input_state)  #We write the GPIO value to its corresponding key-value pair 
+            GPIOValuesDict[f"GPIO{pin}"] = input_state  #We write the GPIO value to its corresponding key-value pair 
             if input_state:
                 print(f"Pin {pin} is HIGH,")
             else:
@@ -61,5 +61,3 @@ def check_gpio_states(gpio_pins):
 def gpio_read_return(): #The function we need to call from outside
     check_gpio_states(gpio_pins_setup)
     return GPIOValuesDict
-    
-gpio_pins_setup = setup_gpio()
