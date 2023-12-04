@@ -1,0 +1,42 @@
+{
+    "Total_Voltage": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 91,
+      "Value_MAX": 96,
+      "Units": "V"
+    },
+    "Total_Temp": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 20,
+      "Value_MAX": 33,
+      "Units": "ºC"
+    },
+    "Total_Current": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 0,
+      "Value_MAX": 110,
+      "Units": "A"
+    },
+    "Voltage_Cell": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 3.5,
+      "Value_MAX": 4,
+      "Units": "V"
+    },
+    "Temp_Cell": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 20,
+      "Value_MAX": 30,
+      "Units": "ºC"
+    },
+    "SoC_status": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 95,
+      "Units": "%"
+    },
+    "SoH_status": {
+      "Type_Chart_Variables": "charge",
+      "Value_MIN": 10,
+      "Units": "%"
+    }
+}

@@ -425,6 +425,15 @@ background-color: #5C6370;
                        <height>15</height>
                       </size>
                      </property>
+                     <property name="font">
+                      <font>
+                       <family>Arial Black!</family>
+                       <pointsize>12</pointsize>
+                       <weight>10</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
                      <property name="text">
                       <string>Lecturas del BMS</string>
                      </property>
@@ -1017,6 +1026,12 @@ background-color: #5C6370;
                    </property>
                    <item>
                     <widget class="QPushButton" name="bt_4">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
                      <property name="text">
                       <string>Temperatura de celdas</string>
                      </property>
@@ -3245,8 +3260,16 @@ border: 0px solid #14C8DC;
                 </property>
                 <item>
                  <widget class="QStackedWidget" name="stackedWidget_info">
+                  <property name="font">
+                   <font>
+                    <family>Arial</family>
+                    <pointsize>8</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>1</number>
                   </property>
                   <widget class="QWidget" name="page1">
                    <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -3297,6 +3320,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_1">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Tensión total</string>
                          </property>
@@ -3325,6 +3356,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_36">
                        <item>
                         <widget class="QLabel" name="label_info1">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -3387,6 +3424,17 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_12">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <italic>false</italic>
+                           <bold>true</bold>
+                           <underline>false</underline>
+                           <strikeout>false</strikeout>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Tensión de celdas</string>
                          </property>
@@ -3415,6 +3463,12 @@ border: 0px solid #14C8DC;
                       <layout class="QVBoxLayout" name="verticalLayout_47">
                        <item>
                         <widget class="QLabel" name="label_info2_1">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>TextLabel</string>
                          </property>
@@ -3425,6 +3479,12 @@ border: 0px solid #14C8DC;
                        </item>
                        <item>
                         <widget class="QLabel" name="label_info2_2">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>TextLabel</string>
                          </property>
@@ -3435,6 +3495,12 @@ border: 0px solid #14C8DC;
                        </item>
                        <item>
                         <widget class="QLabel" name="label_info2_3">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>TextLabel</string>
                          </property>
@@ -3497,6 +3563,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_2">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Estado de carga (SoC)</string>
                          </property>
@@ -3525,6 +3599,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_38">
                        <item>
                         <widget class="QLabel" name="label_info3">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -3587,6 +3667,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_3">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Temperatura de celdas</string>
                          </property>
@@ -3615,6 +3703,12 @@ border: 0px solid #14C8DC;
                       <layout class="QVBoxLayout" name="verticalLayout_48">
                        <item>
                         <widget class="QLabel" name="label_info4_1">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>TextLabel</string>
                          </property>
@@ -3625,6 +3719,11 @@ border: 0px solid #14C8DC;
                        </item>
                        <item>
                         <widget class="QLabel" name="label_info4_2">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>TextLabel</string>
                          </property>
@@ -3635,6 +3734,11 @@ border: 0px solid #14C8DC;
                        </item>
                        <item>
                         <widget class="QLabel" name="label_info4_3">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>TextLabel</string>
                          </property>
@@ -3697,6 +3801,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_4">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Temperatura de placa</string>
                          </property>
@@ -3725,6 +3837,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_40">
                        <item>
                         <widget class="QLabel" name="label_info5">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -3787,6 +3905,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_5">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Corriente total</string>
                          </property>
@@ -3815,6 +3941,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_41">
                        <item>
                         <widget class="QLabel" name="label_info6">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -3877,6 +4009,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_6">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Alimentación 5 VDC</string>
                          </property>
@@ -3905,6 +4045,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_42">
                        <item>
                         <widget class="QLabel" name="label_info7">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -3967,6 +4113,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_7">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Sinus</string>
                          </property>
@@ -3995,6 +4149,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_43">
                        <item>
                         <widget class="QLabel" name="label_info8">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -4057,6 +4217,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_8">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Cosinus</string>
                          </property>
@@ -4085,6 +4253,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_44">
                        <item>
                         <widget class="QLabel" name="label_info9">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -4147,6 +4321,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_9">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Funcionamiento DC-DC (voltaje 12 V)</string>
                          </property>
@@ -4175,6 +4357,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_46">
                        <item>
                         <widget class="QLabel" name="label_info10">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -4237,6 +4425,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_10">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Comunicación CAN con el INVERSOR</string>
                          </property>
@@ -4265,6 +4461,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_48">
                        <item>
                         <widget class="QLabel" name="label_info11">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -4327,6 +4529,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_11">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Funcionamiento Acelerador 12 VDC</string>
                          </property>
@@ -4355,6 +4565,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_50">
                        <item>
                         <widget class="QLabel" name="label_info12">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -4417,6 +4633,14 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_13">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>11</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Termistor motor</string>
                          </property>
@@ -4445,6 +4669,12 @@ border: 0px solid #14C8DC;
                       <layout class="QHBoxLayout" name="horizontalLayout_53">
                        <item>
                         <widget class="QLabel" name="label_info13">
+                         <property name="font">
+                          <font>
+                           <family>Arial</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Explcació error o el que sigui</string>
                          </property>
@@ -4507,6 +4737,12 @@ border: 0px solid #14C8DC;
                        </property>
                        <item>
                         <widget class="QLabel" name="label_info1_14">
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
                          <property name="text">
                           <string>Comunicación Sevcon y BMS</string>
                          </property>
@@ -5476,6 +5712,13 @@ border: 0px solid #14C8DC;
                 </property>
                 <item>
                  <widget class="QLabel" name="label_serie">
+                  <property name="font">
+                   <font>
+                    <family>Arial</family>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>Nº de serie: </string>
                   </property>

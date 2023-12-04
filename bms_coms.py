@@ -1,6 +1,8 @@
 import os
 import can
 import cantools
+import random
+import string
 from config_can import *
 
 #############################################################################################################
@@ -116,10 +118,11 @@ def get_inv_errors(can_bus,db):
 def get_bms_data_test():
 	bat_data = Battery_full()
 	bat_data.init_cells()
+	random_serial = ''.join(random.choices(string.ascii_uppercase + string.digits,k = 32))
 	
-	voltage = [83.862,93.862,93.86,93.46]
-	current = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	temperature = [28.3,28.3,28.3,28.3]
+	voltage = [92.862,95.862,94.86,96.43546,95.562,95.738]
+	current = [20,30,20.02,20,30,40,35,30.02,20,20,20,30,20,30,20,100,30,105,50,50.01,50]
+	temperature = [28.3,28.3,28.3,28.3,28.3,28.3]
 	soc = [68.51,68.51,68.51,68.51]
 	soh = [99.9,99.8,99.88,99.89]
 	cell_voltage = [
@@ -155,6 +158,8 @@ def get_bms_data_test():
 		[31.1,31.1,31,30.2],
 		[31.1,31.12,31,30.1]
 	]
+
+	bat_data.set_serial(0, random_serial)
 
 	for values in voltage:
 		bat_data.add_voltage(values)

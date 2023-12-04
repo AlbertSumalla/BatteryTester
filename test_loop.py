@@ -1,3 +1,4 @@
+from config_can import *
 from bms_coms import *
 import pandas as pd
 from constants import *
@@ -5,10 +6,28 @@ from gpioconfig import *
 
 def function_test_loop():
 
+    #db = setup_db_bms()
+
+    #with setup_bus() as can0: # socketcan_native
+    
+        #can0.set_filters(get_inv_filters())
+        
+        #inv_errors = get_inv_errors(can0, db)
+
+        #can0.set_filters(get_bms_filters(db))
+    
+        #bat_info = get_bms_data_test(can0, db, 2)
+
+        #if bat_info == -1: return -1        # check de si hi ha conexió CAN
+    
+    #bat_info.remove_outliers()
+
+    #close_bus()
+    
     #------------------------------------constants.py apart de les constants
     
     bat_info = get_bms_data_test()
-    
+
     VoltMeanCells = []
     tempMeanCells = []
 
@@ -29,18 +48,18 @@ def function_test_loop():
     for i in range(4):
         tempCells.append(pd.Series(bat_info.get_cell_temperature(i)))
 
-    #------------------------------------Definició de les series que rebem de bms_com
+    #------------------------------------Definició de les series que rebem de bms_coms
 
-    VoltMean = Volt.mean()
-    currMean = curr.mean()
-    tempMean = temp.mean()
-    SoCMean = SoC.mean()
-    SoHMean = SoH.mean()
+    VoltMean = round(Volt.mean(),3)
+    currMean = round(curr.mean(),3)
+    tempMean = round(temp.mean(),3)
+    SoCMean = round(SoC.mean(),3)
+    SoHMean = round(SoH.mean(),3)
 
     #------------------------------------Mitjana de cada serie de la bateria
 
     for i in range(24):
-        VoltMeanCells.append(VoltCells[i].mean())
+        VoltMeanCells.append(round(VoltCells[i].mean(),3))
 
         if (VoltCells[i][VoltCells[i] < VoltMinCells].count() != 0 or VoltCells[i][VoltCells[i] > VoltMaxCells].count() != 0):
             VoltMeanCCheck[i] = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
@@ -50,7 +69,7 @@ def function_test_loop():
             warningVC = 1
       
     for i in range(4):
-        tempMeanCells.append(tempCells[i].mean())
+        tempMeanCells.append(round(tempCells[i].mean(),3))
 
         if (tempCells[i][tempMinCells >= tempCells[i]].count() != 0 or tempCells[i][tempMaxCells <= tempCells[i]].count() != 0):
             tempMeanCCheck[i] = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
@@ -58,6 +77,59 @@ def function_test_loop():
         if (tempCells[i].count() < 5):
             tempMeanCCheck[i] = 4 #cas en què el nombre de lectures és massa baix (Warning)
             warningTC = 1
+
+    #------------------------------------Generació csv i json més send
+
+    url = 'http://13.48.135.195/InNlcnZlcl90b2tlbiI.ZVur6A.Qlz8-Sk9HptBZQrhIKI950aQFsk/production_api'
+    columns = ['Serial', 'Voltage', 'Temperature', 'Current', 'SOC', 'SOH'] + [f'Cell{i+1}_Voltage' for i in range(24)] + [f'Cell{i+1}_Temperature' for i in range(4)]
+    
+    # Try to read the existing CSV file, or create an empty DataFrame if the file doesn't exist yet
+    try:
+        df = pd.read_csv('battery_log.csv')
+    except FileNotFoundError:
+        df = pd.DataFrame(columns=columns)
+
+    # Extract data from the BatteryFull instance
+    battery_values = {
+        'Serial': bat_info.get_serial()[0],
+        'Voltage': VoltMean,  
+        'Temperature': tempMean,
+        'Current': currMean,  
+        'SOC': SoCMean,  
+        'SOH': SoHMean,  
+    }
+
+    # Add cell voltage and temperature columns to the dictionary
+    for i in range(24):
+        battery_values[f'Cell{i+1}_Voltage'] = VoltMeanCells[i]
+    for i in range(4):
+        battery_values[f'Cell{i+1}_Temperature'] = tempMeanCells[i]
+
+    # Order the columns in the new row to match the DataFrame columns
+    new_row = pd.DataFrame([battery_values], columns=columns)
+
+    # Check if the serial number already exists in the DataFrame
+    if 'Serial' in df and (df['Serial'] == battery_values['Serial']).any():
+        df.loc[df['Serial'] == battery_values['Serial']] = new_row.values[0]
+    else:
+        df = pd.concat([df, new_row], ignore_index=True)
+
+    df.to_csv('battery_log.csv', index=False)
+
+    json_data = df.to_dict(orient='records')
+    with open('battery_log.json', 'w') as json_file:
+        json.dump(json_data, json_file, indent=2)
+
+
+    current_battery_data = new_row.to_dict(orient='records')
+    with open('battery_new.json', 'w') as json_file:
+        json.dump(current_battery_data, json_file, indent=2)
+        ''''
+        df_js = new_row.to_json(orient='records')
+        df_send = json.loads(df_js)
+        response = requests.post(url,json=df_send)  
+        print(response.text)
+    '''
 
     #-----------------------------------------Càlcul de mitjanes i dels warnings (alguna mesura fora del rang i poques mesures) de totes les cel·les
     
@@ -74,7 +146,7 @@ def function_test_loop():
     if (Volt[Volt < VoltMin].count() != 0 or Volt[Volt > VoltMax].count() != 0):
         VoltMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningV = 1
-    if (curr[currExpect - RangecurrMin < curr].count() != 0 or curr[curr < currExpect - RangecurrMin].count() != 0):
+    if (curr[RangecurrMin > curr].count() != 0 or curr[curr > RangecurrMax].count() != 0):
         currMeanCheck = 3 #cas en que mitjana és correcte però alguna de les lectures esta fora del rang (Warning)
         warningC = 1
     if (temp[tempMin >= temp].count() != 0 or temp[tempMax <= temp].count() != 0):
@@ -107,31 +179,31 @@ def function_test_loop():
     
     #--------------------------------------Mirem si la quantitat de lectures no aberrants que té cada llista és suficient o no de la bateria (Warning 2)
 
-    if VoltMin >= VoltMean and warningV == 0:
+    if VoltMin >= VoltMean:
         VoltMeanCheck = 2 #Voltage per sota mínims
-    elif VoltMean >= VoltMax and warningV == 0:
+    elif VoltMean >= VoltMax:
         VoltMeanCheck = 1 #Voltage per sobre màxims
     elif warningV == 0:
         VoltMeanCheck = 0 #Voltage dins de marges
-
-    if (currExpect - RangecurrMin < currMean < currExpect + RangecurrMax) and warningC == 0:
+   
+    if (RangecurrMin <= currMean <= RangecurrMax) and warningC == 0:
         currMeanCheck = 0 #Corrent dins de marges
-    elif warningV == 0:
+    elif (RangecurrMin >= currMean >= RangecurrMax):
         currMeanCheck = 1 #Corrent fora de l'esperat
-
-    if tempMin >= tempMean and warningT == 0:
+   
+    if tempMin >= tempMean:
         tempMeanCheck = 2 #Temperatura per sota mínims
-    elif tempMean >= tempMax and warningT == 0:
+    elif tempMean >= tempMax:
         tempMeanCheck = 1 #Temperatura per sobre màxims
     elif warningT == 0:
         tempMeanCheck = 0 #Temperatura dins de marges
 
-    if SoCMin >= SoCMean and warningSoC == 0:
+    if SoCMin >= SoCMean:
         SoCMeanCheck = 1 #SoC per sota del mínim
     elif warningSoC == 0:
         SoCMeanCheck = 0 #SoC dins dels marges
 
-    if SoHMin >= SoHMean and warningSoH == 0:
+    if SoHMin >= SoHMean:
         SoHMeanCheck = 1 #SoH per sota del mínim
     elif warningSoH == 0:
         SoHMeanCheck = 0 #SoH dins dels marges
@@ -139,24 +211,42 @@ def function_test_loop():
 #--------------------------------------------------Checks Bateria
  
     for i in range(24):
-        if VoltMinCells >= VoltMeanCells[i] and warningVC == 0:
+        if VoltMinCells >= VoltMeanCells[i]:
             VoltMeanCCheck[i] = 2 #Voltage de cel·les per sota mínims
-        elif VoltMeanCells[i] >= VoltMaxCells and warningVC == 0:
+        elif VoltMeanCells[i] >= VoltMaxCells:
             VoltMeanCCheck[i] = 1 #Voltage de cel·les per sobre màxims
         elif warningVC == 0:
             VoltMeanCCheck[i] = 0 #Voltage de cel·les dins de marges
 
     for j in range(4):
-        if tempMinCells >= tempMeanCells[j] and warningTC == 0:
+        if tempMinCells >= tempMeanCells[j]:
             tempMeanCCheck[j] = 2 #Temperatura de cel·les per sota mínims
-        elif tempMeanCells[j] >= tempMaxCells and warningTC == 0:
+        elif tempMeanCells[j] >= tempMaxCells:
             tempMeanCCheck[j] = 1 #Temperatura de cel·les per sobre màxims
         elif warningTC == 0:
             tempMeanCCheck[j] = 0 #Temperatura de cel·les dins dels marges
 
     #-------------------------------------------------Checks Cells Bateria
+   
+    inv_errors = get_inv_errors_test()
 
+    errors_inv = pd.Series(inv_errors)
+
+    #--------------------------------------Definició de la serie d'errors del inversor que rebem de bms_coms
+
+    if (errors_inv.count() == 0):
+        errors_inv_check = 0 #L'inversor no ens envia cap error
+    else :
+        errors_inv_check = 1 #L'inversor ens envia algún error que enviarem a la UI
+
+    #-------------------------------------Comprovem si l'inversor ens envia algún error o no
+    
     Volt12Vline = GPIOValuesDict["GPIO17"]
+    Value12VlineESP32 = GPIOValuesDict["GPIO18","GPIO26","GPIO19","GPIO13","GPIO6","GPIO5","GPIO22","GPIO27"]
+    Bits_string_12V = ''.join(map(str, Value12VlineESP32)) # Bits a string
+    Decimal_value_12V = int(Bits_string_12V, 2) # String a decimal
+    Value12V_escalat = (float(Decimal_value_12V) / 255) * 20.0 #Acabar d'ajustar aquest 20 amb testeig
+
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
     else:
@@ -164,15 +254,21 @@ def function_test_loop():
 
     #-----------------------------------------------Checks GPIOs
     
-    TreatedDataReturnList = [Volt12VlineCheck,-1, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
+    TreatedDataReturnList = [Volt12VlineCheck, Value12V_escalat, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
     for i in range(24):
         TreatedDataReturnList.append(VoltMeanCCheck[i])
         TreatedDataReturnList.append(VoltMeanCells[i])
     for j in range(4):
         TreatedDataReturnList.append(tempMeanCCheck[j])
         TreatedDataReturnList.append(tempMeanCells[j])
-
-    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors
+    TreatedDataReturnList.append(errors_inv_check)
+    if (errors_inv_check == 1):
+        for k in range(errors_inv.count()):
+            TreatedDataReturnList.append(errors_inv[k])
+    else:
+        TreatedDataReturnList.append(-1)
+    
+    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors (tant de bms com de l'inversor)
     
     return TreatedDataReturnList
 
@@ -188,5 +284,4 @@ def failed_connection(Volt, curr, temp, SoC, SoH, VoltCells, tempCells):
     if len(Volt) == 0 and len(curr) == 0 and len(temp) == 0 and len(SoC) == 0 and len(SoH) == 0 and cell_temp_empt == 1 and cell_volt_empt == 1:
         return -1                       #no hem obtingut cap dada (fallida total de la connexió)
     else:
-        return 0                        # hem rebut dades (comunicació funciona)
-        
+        return 0                        # hem rebut dades (comunicació funciona)    
