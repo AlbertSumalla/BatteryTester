@@ -20,13 +20,14 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 
 		msg_received = can_bus.recv(0.5)
 
-		if e == 3: 
-			return -1
 		
 		if msg_received == None:
+			
+			if e == 1: return -1
+			
 			can_bus.send(encode_keepalive(db))
 			n = n + 1
-			e = e + 1
+			e = 1
 
 		try:
 			decoded_frame = db.decode_message(msg_received.arbitration_id, msg_received.data)
@@ -94,20 +95,21 @@ def get_inv_errors(can_bus,db):
 
 	error_list = []
 
-	msg_received = can_bus.recv(0.5)
+	msg_received = can_bus.recv(1)
+
+	msg_received = can_bus.recv(1)
 	
 	while msg_received != None: 
+		
 		if msg_received.arbitration_id == 0x0081:
-			bytes = msg_received.data
-
-			bytes &= 0x000000ffff000000
-			data_0 = bytes >> (4*8)
-			data_1 = bytes >> (4*4)
-
-			data_1 &= 0xff00
-
-			error_list.append(data_1 | data_0)
+			print("error inv recv")
 			
+			bytes_data = msg_received.data
+			
+			error_list.append((bytes_data[4] << 8) + bytes_data[3])
+			
+		msg_received = can_bus.recv(1)
+		
 	return error_list
 		
 
