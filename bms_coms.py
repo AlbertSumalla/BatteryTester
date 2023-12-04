@@ -102,7 +102,6 @@ def get_inv_errors(can_bus,db):
 	while msg_received != None: 
 		
 		if msg_received.arbitration_id == 0x0081:
-			print("error inv recv")
 			
 			bytes_data = msg_received.data
 			
