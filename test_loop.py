@@ -1,7 +1,7 @@
-import bms_coms
 import pandas as pd
 import constants as c
 from gpioconfig import *
+from bms_coms import *
 
 def function_test_loop():
 

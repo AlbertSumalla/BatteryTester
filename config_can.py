@@ -63,12 +63,12 @@ def close_bus():    #Tanca el bus
 
 def remove_outliers(list):  #treu els valors aberrants
     
-	if list == 0:
-		list.pop(0)
+    if list == 0:
+        list.pop(0)
 
     return list
 
-	"""
+"""
 class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
     def __init__(self):
         self.voltage = []
@@ -87,7 +87,7 @@ class Battery_cell:     #per enmagatzemar totes les dades d'una cel·la
 
         self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
         self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
-	"""
+"""
 
 class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def __init__(self):
@@ -174,7 +174,7 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         return self.serial
 
     def remove_outliers(self):
-	"""
+        """
         self.voltage = remove_outliers(self.voltage, MAX_OUTLIER_ERROR)
 
         self.temperature = remove_outliers(self.temperature, MAX_OUTLIER_ERROR)
@@ -184,10 +184,9 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
         self.soc = remove_outliers(self.soc, MAX_OUTLIER_ERROR)
 
         self.soh = remove_outliers(self.soh, MAX_OUTLIER_ERROR)
-	"""
+        """
         for i in range(24):
             self.cell_voltage[i] = remove_outliers(self.cell_voltage[i])
 
         for i in range(4):
             self.cell_temperature[i] = remove_outliers(self.cell_temperature[i])
-
