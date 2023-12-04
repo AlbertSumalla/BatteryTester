@@ -14,7 +14,7 @@
     "Total_Current": {
       "Type_Chart_Variables": "charge",
       "Value_MIN": 0,
-      "Value_MAX": 100,
+      "Value_MAX": 110,
       "Units": "A"
     },
     "Voltage_Cell": {

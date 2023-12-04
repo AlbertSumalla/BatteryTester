@@ -9,7 +9,6 @@ with open('constants_battery.json', 'r') as cnt_file:
 #Valors mínims i màxims acceptables de la bateria
 VoltMin = data["Total_Voltage"]["Value_MIN"]
 VoltMax = data["Total_Voltage"]["Value_MAX"]
-currExpect = 0
 RangecurrMin = data["Total_Current"]["Value_MIN"]
 RangecurrMax = data["Total_Current"]["Value_MAX"]
 tempMin = data["Total_Temp"]["Value_MIN"]
