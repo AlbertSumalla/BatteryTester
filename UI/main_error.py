@@ -143,7 +143,7 @@ class MainWindow(QMainWindow):
 			self.stackedWidget_info.setCurrentIndex(1)
 			#Cell 1
 			if data2_1 == 0:
-				self.label_info2_1.setText(f"<font color='#00FF00'><b>Cell 1 No error.<b></font> Cell 1 voltage is <font color='#00FF00'><b>{data2_1v:.2f}V<b></font> which are between the boundaries.")
+				self.label_info2_1.setText(f"<font color='#00FF00'><b>Cell 1 No error.<b></font> Cell 1 voltage is <font color='#00FF00'><b>{data2_1v:.2f}V<b></font> which is between the boundaries.")
 			elif data2_1 == 1:
 				self.label_info2_1.setText(f"<font color='red'><b>Cell 1 Error.<b></font> Cell 1 voltage is <font color='red'><b>{data2_1v:.2f} V<b></font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
 			elif data2_1 == 2:
@@ -157,7 +157,7 @@ class MainWindow(QMainWindow):
 			self.label_info2_1.setWordWrap(True)
 			#Cell 2
 			if data2_2 == 0:
-				self.label_info2_2.setText(f"<font color='#00FF00'><b>Cell 2 No error.<b></font> Cell 2 voltage is <font color='#00FF00'><b>{data2_2v:.2f} V<b></font> which are between the boundaries.")
+				self.label_info2_2.setText(f"<font color='#00FF00'><b>Cell 2 No error.<b></font> Cell 2 voltage is <font color='#00FF00'><b>{data2_2v:.2f} V<b></font> which is between the boundaries.")
 			elif data2_2 == 1:
 				self.label_info2_2.setText(f"<font color='red'><b>Cell 2 Error.<b></font> Cell 2 voltage is <font color='red'><b>{data2_2v:.2f} V<b></font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
 			elif data2_2 == 2:
@@ -171,7 +171,7 @@ class MainWindow(QMainWindow):
 			self.label_info2_2.setWordWrap(True)
 			#Cell 3
 			if data2_3 == 0:
-				self.label_info2_3.setText(f"<font color='#00FF00'><b>Cell 3 No error.<b></font> Cell 2 voltage is <font color='#00FF00'><b>{data2_3v:.2f} V<b></font> which are between the boundaries.")
+				self.label_info2_3.setText(f"<font color='#00FF00'><b>Cell 3 No error.<b></font> Cell 2 voltage is <font color='#00FF00'><b>{data2_3v:.2f} V<b></font> which is between the boundaries.")
 			elif data2_3 == 1:
 				self.label_info2_3.setText(f"<font color='red'><b>Cell 3 Error.<b></font> Cell 2 voltage is <font color='red'><b>{data2_3v:.2f} V<b></font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
 			elif data2_3 == 2:
@@ -188,15 +188,15 @@ class MainWindow(QMainWindow):
 		if self.increment >= 300:
 			self.stackedWidget_info.setCurrentIndex(2)
 			if data3 == 0:
-				self.label_info3.setText(f"No errors")
+				self.label_info3.setText(f"<font color='#00FF00'><b>No error.<b></font> SoC percentage value read is <font color='#00FF00'><b>{data3v:.2f}<b> %</font> which is between the boundaries.")
 			elif data3 == 1:
-				self.label_info3.setText(f"The SoC percentage value read is under the minimum. Working outside the boundaries will reduce the battery cells life.")
+				self.label_info3.setText(f"<font color='red'><b>Error.<b></font>The SoC percentage value read is <font color='red'><b>{data3v:.2f}<b> %</font> which is under the minimum. Working outside the boundaries will reduce the battery cells life.")
 			elif data3 == 2:
-				self.label_info3.setText(f"The calculated average is within the correct range of values, but there are measurements that are outside of this range. It is recommended to redo the validation.")
+				self.label_info3.setText(f"<font color='yellow'><b>Warning.<b></font> The calculated average is within the correct range of values, <font color='yellow'><b>{data3v:.2f}<b> %</font>, but there are measurements that are outside of this range. It is recommended to redo the validation.")
 			elif data3 == 3:
-				self.label_info3.setText(f"The number of outlier measurements is too high, and the usable readings are few. It is recommended to redo the validation.")
+				self.label_info3.setText(f"<font color='yellow'><b>Warning.<b></font> The number of outlier measurements is too high, and the usable readings are few. Value is <font color='yellow'><b>{data3v:.2f}<b> %</font>. It is recommended to redo the validation.")
 			else:
-				self.label_info3.setText(f"No valid data input.")
+				self.label_info3.setText(f"<font color='red'><b>Cell 3 Error.<b></font> No valid data input.")
 		self.label_info3.setWordWrap(True)
 	#Temperatura de celdas
 	def changeToPage4(self):
@@ -204,77 +204,77 @@ class MainWindow(QMainWindow):
 			self.stackedWidget_info.setCurrentIndex(3)
 			#Cell 1
 			if data4_1 == 0:
-				self.label_info4_1.setText(f"Cell 1 temperature is <font color='#00FF00'>{data4_1v:.2f} ºC</font> which are between the boundaries.")
+				self.label_info4_1.setText(f"<font color='#00FF00'><b>Cell 1 No error.<b></font> Cell 1 temperature is <font color='#00FF00'><b>{data4_1v:.2f} V<b></font> which is between the boundaries.")
 			elif data4_1 == 1:
-				self.label_info4_1.setText(f"Cell 1 temperature is <font color='red'>{data4_1v:.2f} ºC</font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
+				self.label_info4_1.setText(f"<font color='red'><b>Cell 1 Error.<b></font> Cell 1 temperature is <font color='red'><b>{data4_1v:.2f} ºC<b></font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
 			elif data4_1 == 2:
-				self.label_info4_1.setText(f"Cell 1 temperature is <font color='red'>{data4_1v:.2f} ºC</font> which is under the minimum.Undervoltage may be caused from storing the battery for a long time without use leading to a breakdown in the anodes and cathodes.")
+				self.label_info4_1.setText(f"<font color='red'><b>Cell 1 Error.<b></font> Cell 1 temperature is <font color='red'><b>{data4_1v:.2f} ºC<b></font> which is under the minimum.Undervoltage may be caused from storing the battery for a long time without use leading to a breakdown in the anodes and cathodes.")
 			elif data4_1 == 3:
-				self.label_info4_1.setText(f"The calculated average is within the correct range of values, but there are measurements that are outside of this range. It is recommended to redo the validation.")
+				self.label_info4_1.setText(f"<font color='yellow'><b>Cell 1 Warning.<b></font> The calculated average is within the correct range of values, <font color='yellow'><b>{data4_1v:.2f}<b> ºC</font> but there are measurements that are outside of this range. It is recommended to redo the validation.")
 			elif data4_1 == 4:
-				self.label_info4_1.setText(f"The number of outlier measurements is too high, and the usable readings are few. It is recommended to redo the validation.")
+				self.label_info4_1.setText(f"<font color='yellow'><b>Cell 1 Warning.<b></font> The number of outlier measurements is too high, and the usable readings are few. Value is <font color='yellow'><b>{data4_1v:.2f}<b> %</font>. It is recommended to redo the validation.")
 			else:
-				self.label_info4_1.setText(f"No valid data input.")
+				self.label_info4_1.setText(f"<font color='red'><b>Cell 1 Error.<b></font> No valid data input.")
 			self.label_info4_1.setWordWrap(True)
 			#Cell 2
 			if data4_2 == 0:
-				self.label_info4_2.setText(f"Cell 2 temperature is <font color='#00FF00'>{data4_2v:.2f} ºC</font> which are between the boundaries.")
+				self.label_info4_2.setText(f"<font color='#00FF00'><b>Cell 2 No error.<b></font> Cell 2 temperature is <font color='#00FF00'><b>{data4_2v:.2f} V<b></font> which is between the boundaries.")
 			elif data4_2 == 1:
-				self.label_info4_2.setText(f"Cell 2 tempreature is <font color='red'>{data4_2v:.2f} ºC</font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
+				self.label_info4_2.setText(f"<font color='red'><b>Cell 2 Error.<b></font> Cell 2 temperature is <font color='red'><b>{data4_2v:.2f} ºC<b></font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
 			elif data4_2 == 2:
-				self.label_info4_2.setText(f"Cell 2 tempreature is <font color='red'>{data4_2v:.2f} ºC</font> which is under the minimum.Undervoltage may be caused from storing the battery for a long time without use leading to a breakdown in the anodes and cathodes.")
+				self.label_info4_2.setText(f"<font color='red'><b>Cell 2 Error.<b></font> Cell 2 temperature is <font color='red'><b>{data4_2v:.2f} ºC<b></font> which is under the minimum.Undervoltage may be caused from storing the battery for a long time without use leading to a breakdown in the anodes and cathodes.")
 			elif data4_2 == 3:
-				self.label_info4_2.setText(f"The calculated average is within the correct range of values, but there are measurements that are outside of this range. It is recommended to redo the validation.")
+				self.label_info4_2.setText(f"<font color='yellow'><b>Cell 2 Warning.<b></font> The calculated average is within the correct range of values, <font color='yellow'><b>{data4_2v:.2f}<b> ºC</font> but there are measurements that are outside of this range. It is recommended to redo the validation.")
 			elif data4_2 == 4:
-				self.label_info4_2.setText(f"The number of outlier measurements is too high, and the usable readings are few. It is recommended to redo the validation.")
+				self.label_info4_2.setText(f"<font color='yellow'><b>Cell 2 Warning.<b></font> The number of outlier measurements is too high, and the usable readings are few. Value is <font color='yellow'><b>{data4_2v:.2f}<b> %</font>. It is recommended to redo the validation.")
 			else:
-				self.label_info4_2.setText(f"No valid data input.")
+				self.label_info4_2.setText(f"<font color='red'><b>Cell 2 Error.<b></font> No valid data input.")
 			self.label_info4_2.setWordWrap(True)
 			#Cell 3
 			if data4_3 == 0:
-				self.label_info4_3.setText(f"Cell 3 temperature is <font color='#00FF00'>{data4_3v:.2f} ºC</font> which are between the boundaries.")
+				self.label_info4_3.setText(f"<font color='#00FF00'><b>Cell 3 No error.<b></font> Cell 3 temperature is <font color='#00FF00'><b>{data4_3v:.2f} V<b></font> which is between the boundaries.")
 			elif data4_3 == 1:
-				self.label_info4_3.setText(f"Cell 3 temperature is <font color='red'>{data4_3v:.2f} ºC</font> which is over the maximum. Working over the recommended temperature at the battery leads to the condition known as Arrhenius effect which will drain higher power from the battery. Higher temperature also generates higher currents creating high heat generation.")
+				self.label_info4_3.setText(f"<font color='red'><b>Cell 3 Error.<b></font> Cell 3 temperature is <font color='red'><b>{data4_3v:.2f} ºC<b></font> which is over the maximum. Overvoltage causes excessive current flow that may lead to overheating and lithium plating leading to battery failure.")
 			elif data4_3 == 2:
-				self.label_info4_3.setText(f"Cell 3 temperature is <font color='red'>{data4_3v:.2f} ºC</font> which is under the minimum. Working under the recommended temperature at the battery may cause a reduction in the current carrying capacity for both the charging and discharging process.")
+				self.label_info4_3.setText(f"<font color='red'><b>Cell 3 Error.<b></font> Cell 3 temperature is <font color='red'><b>{data4_3v:.2f} ºC<b></font> which is under the minimum.Undervoltage may be caused from storing the battery for a long time without use leading to a breakdown in the anodes and cathodes.")
 			elif data4_3 == 3:
-				self.label_info4_3.setText(f"The calculated average is within the correct range of values, but there are measurements that are outside of this range. It is recommended to redo the validation.")
+				self.label_info4_3.setText(f"<font color='yellow'><b>Cell 3 Warning.<b></font> The calculated average is within the correct range of values, <font color='yellow'><b>{data4_3v:.2f}<b> ºC</font> but there are measurements that are outside of this range. It is recommended to redo the validation.")
 			elif data4_3 == 4:
-				self.label_info4_3.setText(f"The number of outlier measurements is too high, and the usable readings are few. It is recommended to redo the validation.")
+				self.label_info4_3.setText(f"<font color='yellow'><b>Cell 3 Warning.<b></font> The number of outlier measurements is too high, and the usable readings are few. Value is <font color='yellow'><b>{data4_3v:.2f}<b> %</font>. It is recommended to redo the validation.")
 			else:
-				self.label_info4_3.setText(f"No valid data input.")
+				self.label_info4_3.setText(f"<font color='red'><b>Cell 3 Error.<b></font> No valid data input.")
 			self.label_info4_3.setWordWrap(True)
 	#Temperatura de placa
 	def changeToPage5(self):
 		if self.increment >= 500:
 			self.stackedWidget_info.setCurrentIndex(4)
 			if data5 == 0:
-				self.label_info5.setText(f"No error")
+				self.label_info5.setText(f"<font color='#00FF00'><b>No error.<b></font> Temperature is <font color='#00FF00'><b>{data5v:.2f} %<b></font> which is between the boundaries.")
 			elif data5 == 1:
-				self.label_info5.setText(f"The temperature of the board is <font color='red'>{data5v:.2f} ºC</font> which is over the maximum. Working over the recommended temperature on the board may cause: loss of structural integrity, disruption of circuit lines, incompatible rates of material expansion or oxidation. The reason for the overheating may be caused by: component malfunction causing dissipation, through-hole interference, surface-mount device distance, lead-free solder…")
+				self.label_info5.setText(f"<font color='red'><b>No error.<b></font> The temperature of the board is <font color='red'><b>{data5v:.2f} ºC<b></font> which is over the maximum. Working over the recommended temperature on the board may cause: loss of structural integrity, disruption of circuit lines, incompatible rates of material expansion or oxidation. The reason for the overheating may be caused by: component malfunction causing dissipation, through-hole interference, surface-mount device distance, lead-free solder…")
 			elif data5 == 2:
-				self.label_info5.setText(f"The temperature of the board is <font color='red'>{data5v:.2f} ºC</font> which is under the minimum.")
+				self.label_info5.setText(f"<font color='red'><b>No error.<b></font> The temperature of the board is <font color='red'><b>{data5v:.2f} ºC<b></font> which is under the minimum.")
 			elif data5 == 3:
-				self.label_info5.setText(f"The calculated average is within the correct range of values, but there are measurements that are outside of this range. It is recommended to redo the validation.")
+				self.label_info5.setText(f"<font color='yellow'><b>Warning.<b></font> The calculated average is within the correct range of values, <font color='yellow'><b>{data5v:.2f}<b> ºC</font> but there are measurements that are outside of this range. It is recommended to redo the validation.")
 			elif data5 == 4:
-				self.label_info5.setText(f"The number of outlier measurements is too high, and the usable readings are few. It is recommended to redo the validation.")
+				self.label_info5.setText(f"<font color='yellow'><b>Warning.<b></font> The number of outlier measurements is too high, and the usable readings are few. Value is <font color='yellow'><b>{data5v:.2f} ºC<b></font>. It is recommended to redo the validation.")
 			else:
-				self.label_info5.setText(f"No valid data input.")
+				self.label_info5.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info5.setWordWrap(True)
 	#Corriente bateria
 	def changeToPage6(self):
 		if self.increment >= 600:
 			self.stackedWidget_info.setCurrentIndex(5)
 			if data6 == 0:
-				self.label_info6.setText(f"Total current read is <font color='#00FF00'>{data6v:.2f} A</font> which is between the boundaries.")
+				self.label_info6.setText(f"<font color='#00FF00'><b>No error.<b></font> Total current read is <font color='#00FF00'>{data6v:.2f} A</font> which is between the boundaries.")
 			elif data6 == 1:
-				self.label_info6.setText(f"Total current read is <font color='#00FF00'>{data6v:.2f} A</font> which is not between the boundaries.")
+				self.label_info6.setText(f"<font color='red'><b>No error.<b></font> Total current read is <font color='#00FF00'>{data6v:.2f} A</font> which is not between the boundaries.")
 			elif data6 == 3:
-				self.label_info6.setText(f"The calculated average is within the correct range of values, but there are measurements that are outside of this range. It is recommended to redo the validation.")
+				self.label_info6.setText(f"<font color='yellow'><b>Warning.<b></font> The calculated average is within the correct range of values, <font color='yellow'><b>{data6v:.2f}<b> A</font> but there are measurements that are outside of this range. It is recommended to redo the validation.")
 			elif data6 == 4:
-				self.label_info6.setText(f"The number of outlier measurements is too high, and the usable readings are few. It is recommended to redo the validation.")
+				self.label_info6.setText(f"<font color='yellow'><b>Warning.<b></font> The number of outlier measurements is too high, and the usable readings are few. Value is <font color='yellow'><b>{data6v:.2f}<b> A</font>. It is recommended to redo the validation.")
 			else:
-				self.label_info6.setText(f"No valid data input.")
+				self.label_info6.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info6.setWordWrap(True)
 
 #Funcionamiento resolver
@@ -284,33 +284,33 @@ class MainWindow(QMainWindow):
 		if self.increment >= 700:
 			self.stackedWidget_info.setCurrentIndex(6)
 			if data7 == 0:
-				self.label_info7.setText(f"No error")
+				self.label_info7.setText(f"<font color='#00FF00'><b>No error.<b></font> Voltage read is <font color='#00FF00'>{data7v:.2f} V</font>.")
 			elif data7 == 1:
-				self.label_info7.setText(f"The power supply voltage of the resolver is not the expected voltage.")
+				self.label_info7.setText(f"<font color='red'><b>Error.<b></font>The power supply voltage of the resolver is not the expected voltage, <font color='red'>{data7v:.2f} V</font>")
 			else:
-				self.label_info7.setText(f"No valid data input.")
+				self.label_info7.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info7.setWordWrap(True)
 	#Sin
 	def changeToPage8(self):
 		if self.increment >= 800:
 			self.stackedWidget_info.setCurrentIndex(7)
 			if data8 == 0:
-				self.label_info8.setText(f"No error")
+				self.label_info8.setText(f"<font color='#00FF00'><b>No error.<b></font>")
 			elif data8 == 1:
-				self.label_info8.setText(f"The sine wave of the resolver is not working correctly. The common issues to consider include:\n- Electrical connection problems, like loose or damaged wiring or terminals. If all the cables are in good condition, you could try shielding them.\n- Electromagnetic interference or noise in the electrical system.\n- Physical damage to the resolver unit.\n- Calibration issues.\n- Power supply problems.")
+				self.label_info8.setText(f"<font color='red'><b>Error.<b></font> The sine wave of the resolver is not working correctly. The common issues to consider include:\n- Electrical connection problems, like loose or damaged wiring or terminals. If all the cables are in good condition, you could try shielding them.\n- Electromagnetic interference or noise in the electrical system.\n- Physical damage to the resolver unit.\n- Calibration issues.\n- Power supply problems.")
 			else:
-				self.label_info8.setText(f"No valid data input.")
+				self.label_info8.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info8.setWordWrap(True)
 	#Cos
 	def changeToPage9(self):
 		if self.increment >= 900:
 			self.stackedWidget_info.setCurrentIndex(8)
 			if data9 == 0:
-				self.label_info9.setText(f"No error")
+				self.label_info9.setText(f"<font color='#00FF00'><b>No error.<b></font>")
 			elif data9 == 1:
-				self.label_info9.setText(f"The cosine wave of the resolver is not working correctly. The common issues to consider include:\n- Electrical connection problems, like loose or damaged wiring or terminals. If all the cables are in good condition, you could try shielding them.\n- Electromagnetic interference or noise in the electrical system.\n- Physical damage to the resolver unit.\n- Calibration issues.\n- Power supply problems.")
+				self.label_info9.setText(f"<font color='red'><b>Error.<b></font> The cosine wave of the resolver is not working correctly. The common issues to consider include:\n- Electrical connection problems, like loose or damaged wiring or terminals. If all the cables are in good condition, you could try shielding them.\n- Electromagnetic interference or noise in the electrical system.\n- Physical damage to the resolver unit.\n- Calibration issues.\n- Power supply problems.")
 			else:
-				self.label_info9.setText(f"No valid data input.")
+				self.label_info9.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info9.setWordWrap(True)
 #Otros
 
@@ -319,44 +319,44 @@ class MainWindow(QMainWindow):
 		if self.increment >= 1000:
 			self.stackedWidget_info.setCurrentIndex(9)
 			if data10 == 0:
-				self.label_info10.setText(f"No error")
+				self.label_info10.setText(f"<font color='#00FF00'><b>No error.<b></font>")
 			elif data10 == 1:
-				self.label_info10.setText(f"The battery voltage is not within the expected range of values, which is between 11V and 16V.")
+				self.label_info10.setText(f"<font color='red'><b>Error.<b></font> The battery voltage is not within the expected range of values, which is between 11V and 16V.")
 			else:
-				self.label_info10.setText(f"No valid data input.")
+				self.label_info10.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info10.setWordWrap(True)
 	#Comunicación CAN con el INVERSOR
 	def changeToPage11(self):
 		if self.increment >= 1100:
 			self.stackedWidget_info.setCurrentIndex(10)
 			if data11 == 0:
-				self.label_info11.setText(f"No error.")
+				self.label_info11.setText(f"<font color='#00FF00'><b>No error.<b></font>")
 			elif data11 == 1:
-				self.label_info11.setText(f"Error.")
+				self.label_info11.setText(f"<font color='red'><b>Error.<b></font> ")
 			else:
-				self.label_info11.setText(f"No valid data input.")
+				self.label_info11.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info11.setWordWrap(True)
 	#Funcionamiento Acelerador 12 VDC
 	def changeToPage12(self):
 		if self.increment >= 1200:
 			self.stackedWidget_info.setCurrentIndex(11)
 			if data12 == 0:
-				self.label_info12.setText(f"No error.")
+				self.label_info12.setText(f"<font color='#00FF00'><b>No error.<b></font>")
 			elif data12 == 1:
-				self.label_info12.setText(f"Error.")
+				self.label_info12.setText(f"<font color='red'><b>Error.<b></font>")
 			else:
-				self.label_info12.setText(f"No valid data input.")
+				self.label_info12.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info12.setWordWrap(True)
 	#Termistor motor
 	def changeToPage13(self):
 		if self.increment >= 1300:
 			self.stackedWidget_info.setCurrentIndex(12)
 			if data13 == 0:
-				self.label_info13.setText(f"No error.")
+				self.label_info13.setText(f"<font color='#00FF00'><b>No error.<b></font>")
 			elif data13 == 1:
-				self.label_info13.setText(f"The termistor motor is not working properly. The main problems that can cause this malfunction are:\n- The instantaneous current through the thermistor is too high, and the resistance coil is damaged.\n- The thermistor's resistance wire is insulated and protected, creating a short circuit between the coils.\n- The line voltage is unstable and fluctuating, and the instantaneous voltage exceeds the thermistor's safety rating.")
+				self.label_info13.setText(f"<font color='red'><b>Error.<b></font> The termistor motor is not working properly. The main problems that can cause this malfunction are:\n- The instantaneous current through the thermistor is too high, and the resistance coil is damaged.\n- The thermistor's resistance wire is insulated and protected, creating a short circuit between the coils.\n- The line voltage is unstable and fluctuating, and the instantaneous voltage exceeds the thermistor's safety rating.")
 			else:
-				self.label_info13.setText(f"No valid data input.")
+				self.label_info13.setText(f"<font color='red'><b>Error.<b></font> No valid data input.")
 		self.label_info13.setWordWrap(True)
 	# Mostrar resultados
 	def resumeOperation(self):
@@ -371,7 +371,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_1.setCurrentIndex(3)
 			else:
 				self.stackedWidget_1.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Tension de celdas
 		elif self.increment == 200:
@@ -383,7 +383,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_2.setCurrentIndex(3)
 			else:
 				self.stackedWidget_2.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Estado de carga
 		elif self.increment == 300:
@@ -395,7 +395,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_3.setCurrentIndex(3)
 			else:
 				self.stackedWidget_3.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Temperatura de celdas
 		elif self.increment == 400:
@@ -407,7 +407,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_4.setCurrentIndex(3)
 			else:
 				self.stackedWidget_4.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Temperatura de placa
 		elif self.increment == 500:
@@ -419,7 +419,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_5.setCurrentIndex(3)
 			else:
 				self.stackedWidget_5.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Corriente total
 		elif self.increment == 600:
@@ -431,7 +431,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_6.setCurrentIndex(3)
 			else:
 				self.stackedWidget_6.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 
 #Funcionamiento resolver
 		#Alimentacion 5 VDC
@@ -442,7 +442,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_7.setCurrentIndex(2)
 			else:
 				self.stackedWidget_6.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Sinus
 		elif self.increment == 800:
@@ -452,7 +452,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_8.setCurrentIndex(2)
 			else:
 				self.stackedWidget_8.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Cosinus
 		elif self.increment == 900:
@@ -462,7 +462,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_9.setCurrentIndex(2)
 			else:
 				self.stackedWidget_9.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 
 #Otros
 		#Funcionamiento DC-DC (voltage 12 V, no tenemos valor)
@@ -473,7 +473,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_10.setCurrentIndex(2)
 			else:
 				self.stackedWidget_10.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Comunicación CAN con el INVERSOR
 		elif self.increment == 1100:
@@ -483,7 +483,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_11.setCurrentIndex(2)
 			else:
 				self.stackedWidget_11.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Funcionamiento Acelerador 12V
 		elif self.increment == 1200:
@@ -493,7 +493,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_12.setCurrentIndex(2)
 			else:
 				self.stackedWidget_12.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		#Termistor motor
 		elif self.increment == 1300:
@@ -503,10 +503,10 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_13.setCurrentIndex(2)
 			else:
 				self.stackedWidget_13.setCurrentIndex(2)
-			self.increment += 5
+			self.increment += 20
 		
 		else:
-			self.increment += 5
+			self.increment += 20
 			self.progressBar_1.setValue(self.increment)
 			self.progressBar_2.setValue(self.increment-100)
 			self.progressBar_3.setValue(self.increment-200)
@@ -580,9 +580,6 @@ class MainWindow(QMainWindow):
 
 		self.timer.timeout.connect(self.resumeOperation)
 		self.timer.start(100)
-		
-		#self.timer.timeout.connect(self.resumeOperation)
-		#self.timer.start(100)
 
 	def stopOperation(self):
 		self.timer.stop()
