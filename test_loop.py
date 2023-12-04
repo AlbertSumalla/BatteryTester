@@ -255,7 +255,7 @@ def function_test_loop():
     Decimal_value_12V = 0
     for i in range (8):
         Decimal_value_12V += ((2**i)*(Value12VlineESP32[7-i]))
-    Value12V_escalat = ((Decimal_value_12V+16) * 20) / 255 #Acabar d'ajustar aquest 20 i 16 amb testeig
+    Value12V_escalat = round((((Decimal_value_12V+16) * 20) / 255),1) #Acabar d'ajustar aquest 20 i 16 amb testeig
 
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
