@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
 #This .py initializes the gpio pins (all inputs) and prints its values to the terminal
@@ -46,7 +46,6 @@ def setup_gpio():
 def check_gpio_states(gpio_pins):
     GPIO.output(23, GPIO.HIGH)
     time.sleep(1)
-    GPIO.output(23, GPIO.LOW)
     if (GPIO.input(24)):  #We make shure that the lecture from the ESP32 is ready to be read by the raspberry
         for pin in gpio_pins:
             input_state = GPIO.input(pin)
@@ -55,6 +54,9 @@ def check_gpio_states(gpio_pins):
                 print(f"Pin {pin} is HIGH,")
             else:
                 print(f"Pin {pin} is LOW")
+    else:
+        print(f"ADC read error")
+    GPIO.output(23, GPIO.LOW)
 
 def gpio_read_return(): #The function we need to call from outside
     check_gpio_states(gpio_pins_setup)

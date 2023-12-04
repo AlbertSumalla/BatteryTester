@@ -1,3 +1,4 @@
+from config_can import *
 from bms_coms import *
 import pandas as pd
 from constants import *
@@ -5,10 +6,28 @@ from gpioconfig import *
 
 def function_test_loop():
 
+    #db = setup_db_bms()
+
+    #with setup_bus() as can0: # socketcan_native
+    
+        #can0.set_filters(get_inv_filters())
+        
+        #inv_errors = get_inv_errors(can0, db)
+
+        #can0.set_filters(get_bms_filters(db))
+    
+        #bat_info = get_bms_data_test(can0, db, 2)
+
+        #if bat_info == -1: return -1        # check de si hi ha conexió CAN
+    
+    #bat_info.remove_outliers()
+
+    #close_bus()
+    
     #------------------------------------constants.py apart de les constants
     
     bat_info = get_bms_data_test()
-    
+
     VoltMeanCells = []
     tempMeanCells = []
 
@@ -29,7 +48,7 @@ def function_test_loop():
     for i in range(4):
         tempCells.append(pd.Series(bat_info.get_cell_temperature(i)))
 
-    #------------------------------------Definició de les series que rebem de bms_com
+    #------------------------------------Definició de les series que rebem de bms_coms
 
     VoltMean = Volt.mean()
     currMean = curr.mean()
@@ -155,8 +174,26 @@ def function_test_loop():
             tempMeanCCheck[j] = 0 #Temperatura de cel·les dins dels marges
 
     #-------------------------------------------------Checks Cells Bateria
+   
+    inv_errors = get_inv_errors_test()
+
+    errors_inv = pd.Series(inv_errors)
+
+    #--------------------------------------Definició de la serie d'errors del inversor que rebem de bms_coms
+
+    if (errors_inv.count() == 0):
+        errors_inv_check = 0 #L'inversor no ens envia cap error
+    else :
+        errors_inv_check = 1 #L'inversor ens envia algún error que enviarem a la UI
+
+    #-------------------------------------Comprovem si l'inversor ens envia algún error o no
 
     Volt12Vline = GPIOValuesDict["GPIO17"]
+    Value12VlineESP32 = GPIOValuesDict["GPIO18","GPIO26","GPIO19","GPIO13","GPIO6","GPIO5","GPIO22","GPIO27"]
+    Bits_string_12V = ''.join(map(str, Value12VlineESP32)) # Bits a string
+    Decimal_value_12V = int(Bits_string_12V, 2) # String a decimal
+    Value12V_escalat = (float(Decimal_value_12V) / 255) * 20.0 #Acabar d'ajustar aquest 20 amb testeig
+
     if (Volt12Vline == 0):
         Volt12VlineCheck = 1 #Voltage fora de rang (11V-16V)
     else:
@@ -164,15 +201,21 @@ def function_test_loop():
 
     #-----------------------------------------------Checks GPIOs
     
-    TreatedDataReturnList = [Volt12VlineCheck,-1, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
+    TreatedDataReturnList = [Volt12VlineCheck, Value12V_escalat, VoltMeanCheck, VoltMean, currMeanCheck, currMean, tempMeanCheck, tempMean, SoCMeanCheck, SoCMean, SoHMeanCheck, SoHMean]
     for i in range(24):
         TreatedDataReturnList.append(VoltMeanCCheck[i])
         TreatedDataReturnList.append(VoltMeanCells[i])
     for j in range(4):
         TreatedDataReturnList.append(tempMeanCCheck[j])
         TreatedDataReturnList.append(tempMeanCells[j])
-
-    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors
+    TreatedDataReturnList.append(errors_inv_check)
+    if (errors_inv_check == 1):
+        for k in range(errors_inv.count()):
+            TreatedDataReturnList.append(errors_inv[k])
+    else:
+        TreatedDataReturnList.append(-1)
+    
+    #----------------------------------------------Creem la llista que passem a la UI amb tots els Checks i els seus valors (tant de bms com de l'inversor)
     
     return TreatedDataReturnList
 

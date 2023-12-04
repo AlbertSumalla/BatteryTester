@@ -85,7 +85,7 @@ def get_bms_data(can_bus,db,iterations): #retorna el data set amb el nombre de d
 
 		msg_received = can_bus.recv(0.5)
 
-		if e = 3: 
+		if e == 3: 
 			return -1
 		
 		if msg_received == None:
@@ -171,7 +171,7 @@ def get_inv_errors(can_bus,db):
 
 			data_1 &= 0xff00
 
-			error_list.append(data_1 | data _0)
+			error_list.append(data_1 | data_0)
 			
 	return error_list
 		

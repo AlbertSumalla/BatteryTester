@@ -23,7 +23,7 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
     	{"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True},
     ]
-     return CAN_BMS_FILTERS
+    return CAN_BMS_FILTERS
 	
 def get_inv_filters():    #Filtres del inversor
     CAN_INV_FILTERS =[
