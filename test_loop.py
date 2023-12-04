@@ -5,7 +5,24 @@ from constants import *
 from gpioconfig import *
 
 def function_test_loop():
+
+    #db = setup_db_bms()
+
+    #with setup_bus() as can0: # socketcan_native
     
+        #can0.set_filters(get_inv_filters())
+        
+        #inv_errors = get_inv_errors(can0, db)
+
+        #can0.set_filters(get_bms_filters(db))
+    
+        #bat_info = get_bms_data_test(can0, db, 2)
+
+        #if bat_info == -1: return -1        # check de si hi ha conexió CAN
+    
+    #bat_info.remove_outliers()
+
+    #close_bus()
     
     #------------------------------------constants.py apart de les constants
     
@@ -157,23 +174,6 @@ def function_test_loop():
             tempMeanCCheck[j] = 0 #Temperatura de cel·les dins dels marges
 
     #-------------------------------------------------Checks Cells Bateria
-
-   
-    #db = setup_db_bms()
-
-    #with setup_bus() as can0: # socketcan_native
-    
-    #can0.set_filters(get_inv_filters())
-        
-        #inv_errors = get_inv_errors(can0, db)
-
-        #can0.set_filters(get_bms_filters(db))
-    
-        #bat_info = get_bms_data_test(can0, db, 2)
-    
-    #bat_info.remove_outliers()
-
-    #close_bus()
    
     inv_errors = get_inv_errors_test()
 
