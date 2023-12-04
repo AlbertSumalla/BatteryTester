@@ -347,7 +347,7 @@ border: 0px solid white;
 }
 
 QPushButton{
-font: 87 12pt &quot;Arial Black!&quot;;
+font: 87 16pt &quot;Arial Black!&quot;;
 background-color: #5C6370;
 color: #CBF280;
 border-radius: 5px;
@@ -473,6 +473,15 @@ background-color: #5C6370;
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Arial Black!</family>
+                       <pointsize>16</pointsize>
+                       <weight>10</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
                      </property>
                      <property name="text">
                       <string>Tensión total</string>
@@ -3269,7 +3278,7 @@ border: 0px solid #14C8DC;
                    </font>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>4</number>
                   </property>
                   <widget class="QWidget" name="page1">
                    <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -3323,7 +3332,7 @@ border: 0px solid #14C8DC;
                          <property name="font">
                           <font>
                            <family>Arial</family>
-                           <pointsize>11</pointsize>
+                           <pointsize>16</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
@@ -3359,7 +3368,7 @@ border: 0px solid #14C8DC;
                          <property name="font">
                           <font>
                            <family>Arial</family>
-                           <pointsize>14</pointsize>
+                           <pointsize>16</pointsize>
                           </font>
                          </property>
                          <property name="text">
@@ -3566,7 +3575,7 @@ border: 0px solid #14C8DC;
                          <property name="font">
                           <font>
                            <family>Arial</family>
-                           <pointsize>11</pointsize>
+                           <pointsize>16</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
@@ -3602,7 +3611,7 @@ border: 0px solid #14C8DC;
                          <property name="font">
                           <font>
                            <family>Arial</family>
-                           <pointsize>10</pointsize>
+                           <pointsize>20</pointsize>
                           </font>
                          </property>
                          <property name="text">
@@ -3804,7 +3813,7 @@ border: 0px solid #14C8DC;
                          <property name="font">
                           <font>
                            <family>Arial</family>
-                           <pointsize>11</pointsize>
+                           <pointsize>16</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
@@ -3840,7 +3849,7 @@ border: 0px solid #14C8DC;
                          <property name="font">
                           <font>
                            <family>Arial</family>
-                           <pointsize>10</pointsize>
+                           <pointsize>30</pointsize>
                           </font>
                          </property>
                          <property name="text">
