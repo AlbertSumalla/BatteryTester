@@ -71,6 +71,7 @@ class MainWindow(QMainWindow):
 
 		# Mostrar resultados
 		self.timer = QTimer(self)
+		self.timer.timeout.connect(self.resumeOperation)
 		self.increment = 0
 		self.bt_start.clicked.connect(self.startOperation)
 		#self.bt_start.clicked.connect(self.run)
@@ -742,7 +743,7 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_1.setCurrentIndex(2)
 				self.label_1v.setText(f"<font color='red'><b> -<b> V</font>")
-			self.increment += 20
+			self.increment += 50
 		
 		#Tension de celdas
 		elif self.increment == 200:
@@ -765,7 +766,7 @@ class MainWindow(QMainWindow):
 				self.data2_tot = 2
 				self.stackedWidget_2.setCurrentIndex(2)
 			
-			self.increment += 20
+			self.increment += 50
 		
 		#Estado de carga
 		elif self.increment == 300:
@@ -781,7 +782,7 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_3.setCurrentIndex(2)
 				self.label_3v.setText(f"<font color='red'><b> -<b> %</font>")
-			self.increment += 20
+			self.increment += 50
 		
 		#Temperatura de celdas
 		elif self.increment == 400:
@@ -793,7 +794,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_4.setCurrentIndex(3)
 			else:
 				self.stackedWidget_4.setCurrentIndex(2)
-			self.increment += 20
+			self.increment += 50
 		
 		#Temperatura de placa
 		elif self.increment == 500:
@@ -809,7 +810,7 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_5.setCurrentIndex(2)
 				self.label_5v.setText(f"<font color='red'><b> -<b> ºC</font>")
-			self.increment += 20
+			self.increment += 50
 		
 		#Corriente total
 		elif self.increment == 600:
@@ -825,7 +826,7 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_6.setCurrentIndex(2)
 				self.label_6v.setText(f"<font color='red'><b> -<b> A</font>")
-			self.increment += 20
+			self.increment += 50
 
 #Funcionamiento resolver
 		#Alimentacion 5 VDC
@@ -839,7 +840,7 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_7.setCurrentIndex(2)
 				self.label_7v.setText(f"<font color='red'><b> -<b> V</font>")
-			self.increment += 20
+			self.increment += 50
 		
 		#Sinus
 		elif self.increment == 800:
@@ -849,7 +850,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_8.setCurrentIndex(2)
 			else:
 				self.stackedWidget_8.setCurrentIndex(2)
-			self.increment += 20
+			self.increment += 50
 		
 		#Cosinus
 		elif self.increment == 900:
@@ -859,7 +860,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_9.setCurrentIndex(2)
 			else:
 				self.stackedWidget_9.setCurrentIndex(2)
-			self.increment += 20
+			self.increment += 50
 
 #Otros
 		#Funcionamiento DC-DC 
@@ -876,7 +877,7 @@ class MainWindow(QMainWindow):
 			else:
 				self.stackedWidget_10.setCurrentIndex(2)
 				self.label_7v.setText(f"<font color='red'><b> -</font>")
-			self.increment += 20
+			self.increment += 50
 		
 		#Comunicación CAN con el INVERSOR
 		elif self.increment == 1100:
@@ -886,7 +887,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_11.setCurrentIndex(2)
 			else:
 				self.stackedWidget_11.setCurrentIndex(2)
-			self.increment += 20
+			self.increment += 50
 		
 		#Funcionamiento Acelerador 12V
 		elif self.increment == 1200:
@@ -896,7 +897,7 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_12.setCurrentIndex(2)
 			else:
 				self.stackedWidget_12.setCurrentIndex(2)
-			self.increment += 20
+			self.increment += 50
 		
 		#Termistor motor
 		elif self.increment == 1300:
@@ -906,10 +907,10 @@ class MainWindow(QMainWindow):
 				self.stackedWidget_13.setCurrentIndex(2)
 			else:
 				self.stackedWidget_13.setCurrentIndex(2)
-			self.increment += 20
+			self.increment += 50
 		
 		else:
-			self.increment += 20
+			self.increment += 50
 			self.progressBar_1.setValue(self.increment)
 			self.progressBar_2.setValue(self.increment-100)
 			self.progressBar_3.setValue(self.increment-200)
@@ -1027,6 +1028,7 @@ class MainWindow(QMainWindow):
 
 		self.label_serie.setText(f"Nº de serie: {self.serial_number}")
 
+		self.timer.timeout.disconnect(self.resumeOperation)
 		self.timer.timeout.connect(self.resumeOperation)
 		self.timer.start(100)
 
@@ -1038,6 +1040,7 @@ class MainWindow(QMainWindow):
 		self.data2_tot = 0
 		self.label_serie.setText(f"Nº de serie:")
 		self.increment = 0
+		
 		self.progressBar_1.setValue(0)
 		self.progressBar_2.setValue(0)
 		self.progressBar_3.setValue(0)
@@ -1051,7 +1054,7 @@ class MainWindow(QMainWindow):
 		self.progressBar_11.setValue(0)
 		self.progressBar_12.setValue(0)
 		self.progressBar_13.setValue(0)
-
+	
 		#Missatges per defecte
 		
 		self.stackedWidget_1.setCurrentIndex(1)
