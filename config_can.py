@@ -21,7 +21,7 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
-    	{"can_id": get_id_db(db, "BATTERY_SERIAL_NUMBER") , "can_mask": 0xfffffff, "extended": True}
+    {"can_id": 0x18ce50d0 , "can_mask": 0xfffffff, "extended": True} # num serie
     ]
     return CAN_BMS_FILTERS
 	
@@ -131,8 +131,8 @@ class Battery_full:     #per enmagatzemar totes les dades de la bateria
     def add_cell_temperature(self, i, temperature):
         self.cell_temperature[i].append(temperature)
 
-    def set_serial(self, i, serial):
-        self.serial[i] = serial
+    def set_serial(self, serial):
+        self.serial = serial
 
     def get_voltage(self):
         return self.voltage
