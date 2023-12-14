@@ -21,13 +21,14 @@ def get_bms_filters(db):    #Filtres del bus
 	{"can_id": get_id_db(db, "VOLTAGES_CELL") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "TEMPERATURE_CELLS") , "can_mask": 0xfffffff, "extended": True},
 	{"can_id": get_id_db(db, "BATTERY_STATE") , "can_mask": 0xfffffff, "extended": True},
-    {"can_id": 0x18ce50d0 , "can_mask": 0xfffffff, "extended": True} # num serie
+    {"can_id": 0x18ce50d0 , "can_mask": 0xfffffff, "extended": True} # num serie 
     ]
     return CAN_BMS_FILTERS
 	
 def get_inv_filters():    #Filtres del inversor
     CAN_INV_FILTERS =[
-	{"can_id": 0x0081 , "can_mask": 0xffff, "extended": False}
+	{"can_id": 0x0081 , "can_mask": 0xffff, "extended": False},
+	{"can_id": 0x0200 , "can_mask": 0xffff, "extended": False}
     ]
     return CAN_INV_FILTERS
 
