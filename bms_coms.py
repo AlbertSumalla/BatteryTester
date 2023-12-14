@@ -87,9 +87,14 @@ def get_inv_errors(can_bus,db):
 
 	error_list = []
 
+	conexió = 0
+	
+	msg_received = can_bus.recv(1)	
+	
 	msg_received = can_bus.recv(1)
 
-	msg_received = can_bus.recv(1)
+	if  msg_received.arbitration_id == 0x0701:
+		conexió = 1
 	
 	while msg_received != None: 
 		
@@ -101,7 +106,7 @@ def get_inv_errors(can_bus,db):
 			
 		msg_received = can_bus.recv(1)
 		
-	return error_list
+	return [conexió, error_list]
 		
 
 	
